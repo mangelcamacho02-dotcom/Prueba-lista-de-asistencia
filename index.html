@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Lista de Asistencia</title>
+    <meta name="description" content="Registra y controla la asistencia de tu evento en tiempo real.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="hero">
+        <div class="hero-bg">
+            <div class="hero-gradient"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title animate-fadeInUp" style="animation-delay: 0.1s;">
+                LISTA DE ASISTENCIA
+            </h1>
+            <p class="hero-subtitle animate-fadeInUp" style="animation-delay: 0.3s;" id="hero-event-name">
+                Registro rápido de participantes para tu evento
+            </p>
+            <div class="hero-location-container animate-fadeInUp" style="animation-delay: 0.4s;">
+                <span class="hero-location" id="hero-event-meta">
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>Configura tu evento abajo</span>
+                </span>
+            </div>
+            <div class="hero-actions animate-fadeInUp" style="animation-delay: 0.5s;">
+                <a class="btn btn-primary btn-pulse-hover" href="#registro">
+                    Agregar Asistente
+                </a>
+                <a class="btn btn-orange btn-pulse-hover" href="#lista">
+                    Ver Lista
+                </a>
+            </div>
+        </div>
+        <a href="#resumen" class="hero-scroll-indicator" aria-label="Desplazarse hacia abajo">
+            <span></span>
+        </a>
+    </header>
+
+    <main>
+        <!-- Event Configuration -->
+        <section class="event-config-section" id="config">
+            <div class="container">
+                <div class="card-panel">
+                    <h2 class="section-title">Datos del Evento</h2>
+                    <div class="agenda-accent-line"></div>
+                    <form id="event-form" class="event-form">
+                        <div class="form-field">
+                            <label for="event-nombre">Nombre del evento</label>
+                            <input type="text" id="event-nombre" placeholder="Ej. Reunión Mensual de Equipo" maxlength="80">
+                        </div>
+                        <div class="form-field">
+                            <label for="event-fecha">Fecha</label>
+                            <input type="date" id="event-fecha">
+                        </div>
+                        <div class="form-field">
+                            <label for="event-lugar">Lugar</label>
+                            <input type="text" id="event-lugar" placeholder="Ej. Sala de Conferencias" maxlength="80">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-small">Guardar Datos</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Stats (Bento Grid) -->
+        <section class="stats-section" id="resumen">
+            <div class="container">
+                <div class="requirements-header">
+                    <h2 class="requirements-title">Resumen de Asistencia</h2>
+                    <p class="requirements-subtitle">
+                        Visualiza en tiempo real cuántas personas se han registrado y confirmado su asistencia.
+                    </p>
+                </div>
+                <div class="bento-grid">
+                    <div class="bento-card bento-card-standard">
+                        <div>
+                            <div class="bento-icon bento-icon-blue">
+                                <svg class="icon-svg" viewBox="0 0 24 24">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            </div>
+                            <h3>Total Registrados</h3>
+                            <p class="stat-number" id="stat-total">0</p>
+                        </div>
+                        <div class="bento-footer">Personas en la lista</div>
+                    </div>
+                    <div class="bento-card bento-card-featured">
+                        <div>
+                            <div class="bento-icon">
+                                <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                            </div>
+                            <h3>Presentes</h3>
+                            <p class="stat-number" id="stat-presentes">0</p>
+                        </div>
+                        <div class="bento-footer">Confirmados hoy</div>
+                    </div>
+                    <div class="bento-card bento-card-standard">
+                        <div>
+                            <div class="bento-icon bento-icon-red">
+                                <svg class="icon-svg" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                            </div>
+                            <h3>Ausentes</h3>
+                            <p class="stat-number" id="stat-ausentes">0</p>
+                        </div>
+                        <div class="bento-footer">Pendientes de llegar</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Form -->
+        <section class="registro-section" id="registro">
+            <div class="container">
+                <div class="card-panel">
+                    <h2 class="section-title">Agregar Asistente</h2>
+                    <div class="agenda-accent-line"></div>
+                    <form id="attendee-form" class="attendee-form">
+                        <div class="form-field">
+                            <label for="attendee-nombre">Nombre completo *</label>
+                            <input type="text" id="attendee-nombre" placeholder="Nombre y apellidos" required maxlength="100">
+                        </div>
+                        <div class="form-field">
+                            <label for="attendee-id">Cédula / Carné</label>
+                            <input type="text" id="attendee-id" placeholder="Número de identificación" maxlength="40">
+                        </div>
+                        <div class="form-field">
+                            <label for="attendee-grupo">Grupo / Categoría</label>
+                            <input type="text" id="attendee-grupo" placeholder="Ej. Invitado, Staff, Familia" maxlength="60">
+                        </div>
+                        <button type="submit" class="btn btn-orange btn-small">
+                            + Agregar a la Lista
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Attendance List -->
+        <section class="lista-section" id="lista">
+            <div class="container">
+                <div class="lista-header">
+                    <h2 class="requirements-title">Lista de Asistentes</h2>
+                    <div class="lista-tools">
+                        <input type="search" id="search-input" class="search-input" placeholder="Buscar por nombre, cédula o grupo...">
+                        <div class="filter-buttons" role="group" aria-label="Filtrar asistentes">
+                            <button class="filter-btn active" data-filter="todos">Todos</button>
+                            <button class="filter-btn" data-filter="presentes">Presentes</button>
+                            <button class="filter-btn" data-filter="ausentes">Ausentes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="attendee-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cédula / Carné</th>
+                                <th>Grupo</th>
+                                <th>Hora</th>
+                                <th>Estado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendee-tbody">
+                            <!-- Rows injected by JS -->
+                        </tbody>
+                    </table>
+                    <p class="empty-state" id="empty-state">Aún no hay personas registradas. Agrega la primera desde el formulario de arriba.</p>
+                </div>
+
+                <div class="lista-actions">
+                    <button class="btn btn-glass-blue btn-small" id="export-btn">Exportar CSV</button>
+                    <button class="btn btn-glass-red btn-small" id="clear-btn">Vaciar Lista</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">LISTA DE ASISTENCIA</div>
+                <p class="footer-tagline">
+                    Control de participantes simple, rápido y guardado en tu propio navegador.
+                </p>
+            </div>
+            <div class="footer-social-section">
+                <p class="footer-copyright">© 2026 Lista de Asistencia. Datos guardados localmente.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
