@@ -2,13 +2,31 @@
    REGISTRO / CHECK-IN - Lógica de consulta por código
    Funciona en registro-dia.html y registro-noche.html.
    El atributo data-actividad en <body> ("dia" o "noche") decide qué lista
-   de códigos usar y en qué llave de localStorage se guarda el check-in.
+   de códigos usar y en qué colección de Firestore se guarda el check-in.
+
+   El conteo y el estado de check-in se guardan en Firestore (no en
+   localStorage), así que se sincronizan en tiempo real entre todos los
+   dispositivos/puntos de registro conectados.
    ========================================================================== */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+    getFirestore,
+    collection,
+    doc,
+    setDoc,
+    onSnapshot,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { firebaseConfig } from './firebase-config.js';
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 document.addEventListener('DOMContentLoaded', () => {
     const actividad = document.body.dataset.actividad; // "dia" | "noche"
     const dataset = actividad === 'dia' ? window.ASISTENTES_DIA : window.ASISTENTES_NOCHE;
-    const STORAGE_KEY = `checkin_${actividad}`;
+    const checkinsRef = collection(db, `checkins_${actividad}`);
 
     const form = document.getElementById('lookup-form');
     const codeInput = document.getElementById('codigo-input');
@@ -16,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultCard = document.getElementById('result-card');
     const counterEl = document.getElementById('lookup-counter');
     const resetBtn = document.getElementById('lookup-reset-btn');
+    const checkinActions = document.getElementById('checkin-actions');
 
     const fields = {
         primerApellido: document.getElementById('result-primer-apellido'),
@@ -25,26 +44,26 @@ document.addEventListener('DOMContentLoaded', () => {
         concierto: document.getElementById('result-concierto')
     };
 
-    const checkinActions = document.getElementById('checkin-actions');
+    let confirmados = new Map(); // codigo -> { horaTexto }
+    let currentCodigo = null;
 
-    function loadCheckins() {
-        try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            return raw ? JSON.parse(raw) : {};
-        } catch (e) {
-            return {};
+    counterEl.textContent = 'Conectando...';
+
+    // Escucha en tiempo real: cualquier check-in confirmado desde cualquier
+    // dispositivo actualiza el contador y, si coincide con el código que se
+    // está viendo en pantalla, también el estado del botón/banner.
+    onSnapshot(checkinsRef, (snapshot) => {
+        confirmados = new Map();
+        snapshot.forEach(docSnap => confirmados.set(docSnap.id, docSnap.data()));
+        counterEl.textContent = `${confirmados.size} de ${dataset.length} confirmados`;
+
+        if (currentCodigo) {
+            renderCheckinState(currentCodigo);
         }
-    }
-
-    function saveCheckins(checkins) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(checkins));
-    }
-
-    function updateCounter() {
-        const checkins = loadCheckins();
-        const confirmados = Object.keys(checkins).length;
-        counterEl.textContent = `${confirmados} de ${dataset.length} confirmados`;
-    }
+    }, (error) => {
+        counterEl.textContent = 'Sin conexión con la base de datos en tiempo real.';
+        console.error('Error escuchando Firestore:', error);
+    });
 
     function findByCodigo(codigo) {
         const normalized = codigo.trim().toUpperCase();
@@ -52,10 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderCheckinState(codigo) {
-        const checkins = loadCheckins();
-        const existing = checkins[codigo];
-
         checkinActions.innerHTML = '';
+        const existing = confirmados.get(codigo);
 
         if (existing) {
             const banner = document.createElement('div');
@@ -65,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                     <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
-                <span>Check-in confirmado a las ${existing.hora}</span>
+                <span>Check-in confirmado a las ${existing.horaTexto}</span>
             `;
             checkinActions.appendChild(banner);
         } else {
@@ -73,14 +90,21 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.type = 'button';
             btn.className = 'btn btn-orange checkin-confirm-btn';
             btn.textContent = 'Confirmar Check-in';
-            btn.addEventListener('click', () => {
-                const updated = loadCheckins();
-                updated[codigo] = {
-                    hora: new Date().toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' })
-                };
-                saveCheckins(updated);
-                renderCheckinState(codigo);
-                updateCounter();
+            btn.addEventListener('click', async () => {
+                btn.disabled = true;
+                btn.textContent = 'Guardando...';
+                try {
+                    await setDoc(doc(checkinsRef, codigo), {
+                        horaTexto: new Date().toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' }),
+                        timestamp: serverTimestamp()
+                    });
+                    // El listener onSnapshot actualiza la pantalla automáticamente.
+                } catch (err) {
+                    btn.disabled = false;
+                    btn.textContent = 'Confirmar Check-in';
+                    alert('No se pudo guardar el check-in. Verifique su conexión e intente de nuevo.');
+                    console.error('Error guardando check-in:', err);
+                }
             });
             checkinActions.appendChild(btn);
         }
@@ -88,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showResult(asistente) {
         errorBox.classList.remove('visible');
+        currentCodigo = asistente.codigo.toUpperCase();
 
         fields.primerApellido.textContent = asistente.primerApellido;
         fields.segundoApellido.textContent = asistente.segundoApellido;
@@ -97,11 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
             ? '<span class="concierto-badge si">Sí</span>'
             : '<span class="concierto-badge no">No</span>';
 
-        renderCheckinState(asistente.codigo.toUpperCase());
+        renderCheckinState(currentCodigo);
         resultCard.classList.add('visible');
     }
 
     function showError(message) {
+        currentCodigo = null;
         resultCard.classList.remove('visible');
         errorBox.textContent = message;
         errorBox.classList.add('visible');
@@ -122,10 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     resetBtn.addEventListener('click', () => {
         form.reset();
+        currentCodigo = null;
         resultCard.classList.remove('visible');
         errorBox.classList.remove('visible');
         codeInput.focus();
     });
-
-    updateCounter();
 });
