@@ -1,0 +1,268 @@
+/* ==========================================================================
+   REGISTRO / CHECK-IN - Estilos de las páginas de consulta por código
+   Extiende el sistema visual de style.css (colores, tipografía, botones)
+   ========================================================================== */
+
+.registro-topbar {
+  background-color: var(--color-inst-dark-blue);
+  padding-block: 1.25rem;
+}
+
+.registro-topbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.registro-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.registro-back-link:hover {
+  color: #ffffff;
+}
+
+.registro-back-link .icon-svg {
+  width: 18px;
+  height: 18px;
+}
+
+.registro-topbar-title {
+  color: #ffffff;
+  font-family: var(--font-headline);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.registro-hero {
+  background: linear-gradient(135deg, var(--color-inst-dark-blue) 0%, var(--color-inst-blue) 55%, var(--color-inst-turquoise) 100%);
+  padding-block: 3rem 4rem;
+  text-align: center;
+}
+
+.registro-hero-title {
+  font-family: var(--font-headline);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .registro-hero-title {
+    font-size: 40px;
+    line-height: 48px;
+  }
+}
+
+.registro-hero-subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 32rem;
+  margin-inline: auto;
+}
+
+.registro-main {
+  padding-block: var(--spacing-section-gap-mobile);
+  background-color: var(--color-surface);
+  min-height: 40vh;
+}
+
+@media (min-width: 1024px) {
+  .registro-main {
+    padding-block: var(--spacing-section-gap-desktop);
+  }
+}
+
+.lookup-card {
+  max-width: 480px;
+  margin-inline: auto;
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid rgba(193, 199, 210, 0.3);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.06);
+  margin-top: -4.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.lookup-counter {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-inst-blue);
+  margin-bottom: 1.5rem;
+}
+
+.lookup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lookup-field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-on-surface-variant);
+  margin-bottom: 0.4rem;
+}
+
+.lookup-field input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-outline-variant);
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lookup-field input:focus {
+  outline: none;
+  border-color: var(--color-inst-blue);
+  box-shadow: 0 0 0 3px rgba(0, 96, 168, 0.15);
+}
+
+.lookup-submit {
+  width: 100%;
+  min-width: 0;
+  padding: 16px 24px;
+}
+
+.lookup-error {
+  margin-top: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(227, 27, 35, 0.08);
+  border: 1px solid rgba(227, 27, 35, 0.25);
+  color: var(--color-inst-red);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  display: none;
+}
+
+.lookup-error.visible {
+  display: block;
+}
+
+.result-card {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--color-outline-variant);
+  padding-top: 1.5rem;
+  display: none;
+}
+
+.result-card.visible {
+  display: block;
+}
+
+.result-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.result-row:last-of-type {
+  border-bottom: none;
+}
+
+.result-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+}
+
+.result-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-on-background);
+  text-align: right;
+}
+
+.concierto-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.concierto-badge.si {
+  background-color: rgba(0, 155, 162, 0.12);
+  color: var(--color-inst-turquoise);
+}
+
+.concierto-badge.no {
+  background-color: rgba(65, 71, 81, 0.1);
+  color: var(--color-on-surface-variant);
+}
+
+.checkin-actions {
+  margin-top: 1.5rem;
+}
+
+.checkin-confirm-btn {
+  width: 100%;
+  min-width: 0;
+  padding: 16px 24px;
+}
+
+.checkin-confirmed-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(0, 155, 162, 0.1);
+  border: 1px solid rgba(0, 155, 162, 0.3);
+  color: var(--color-inst-turquoise);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.checkin-confirmed-banner .icon-svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.lookup-reset-btn {
+  display: block;
+  margin: 1.25rem auto 0;
+  background: none;
+  border: none;
+  color: var(--color-inst-blue);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
