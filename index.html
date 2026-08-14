@@ -4,193 +4,282 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Lista de Asistencia</title>
-    <meta name="description" content="Registra y controla la asistencia de tu evento en tiempo real.">
+    <title>Convivio Familiar 2026</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <header class="hero">
-        <div class="hero-bg">
-            <div class="hero-gradient"></div>
-        </div>
-        <div class="hero-content">
-            <h1 class="hero-title animate-fadeInUp" style="animation-delay: 0.1s;">
-                LISTA DE ASISTENCIA
-            </h1>
-            <p class="hero-subtitle animate-fadeInUp" style="animation-delay: 0.3s;" id="hero-event-name">
-                Registro rápido de participantes para tu evento
-            </p>
-            <div class="hero-location-container animate-fadeInUp" style="animation-delay: 0.4s;">
-                <span class="hero-location" id="hero-event-meta">
-                    <svg class="icon-svg" viewBox="0 0 24 24">
-                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    <span>Configura tu evento abajo</span>
-                </span>
-            </div>
-            <div class="hero-actions animate-fadeInUp" style="animation-delay: 0.5s;">
-                <a class="btn btn-primary btn-pulse-hover" href="#registro">
-                    Agregar Asistente
-                </a>
-                <a class="btn btn-orange btn-pulse-hover" href="#lista">
-                    Ver Lista
-                </a>
-            </div>
-        </div>
-        <a href="#resumen" class="hero-scroll-indicator" aria-label="Desplazarse hacia abajo">
-            <span></span>
-        </a>
-    </header>
-
     <main>
-        <!-- Event Configuration -->
-        <section class="event-config-section" id="config">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg">
+                <div class="hero-placeholder"></div>
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title animate-fadeInUp" style="animation-delay: 0.1s;">
+                    CONVIVIO MÉDICO FAMILIAR 2026
+                </h1>
+                <p class="hero-subtitle animate-fadeInUp" style="animation-delay: 0.3s;">
+                    Unidos por nuestras raíces, celebrando nuestro futuro
+                </p>
+                <div class="hero-location-container animate-fadeInUp" style="animation-delay: 0.4s;">
+                    <a href="https://maps.google.com/?q=Parque+de+Diversiones+Costa+Rica" target="_blank" rel="noopener"
+                        class="hero-location">
+                        <svg class="icon-svg" viewBox="0 0 24 24">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>Parque de Diversiones</span>
+                    </a>
+                </div>
+                <div class="hero-actions animate-fadeInUp" style="animation-delay: 0.5s;">
+                    <a class="btn btn-primary btn-pulse-hover" href="#registro-dia">
+                        Registro Actividad de Día
+                    </a>
+                    <a class="btn btn-orange btn-pulse-hover" href="#registro-noche">
+                        Registro Actividad de Noche
+                    </a>
+                </div>
+            </div>
+            <a href="#welcome-section-start" class="hero-scroll-indicator" aria-label="Desplazarse hacia abajo">
+                <span></span>
+            </a>
+        </section>
+
+        <!-- Welcome & Description Section -->
+        <section class="welcome-section" id="welcome-section-start">
             <div class="container">
-                <div class="card-panel">
-                    <h2 class="section-title">Datos del Evento</h2>
-                    <div class="agenda-accent-line"></div>
-                    <form id="event-form" class="event-form">
-                        <div class="form-field">
-                            <label for="event-nombre">Nombre del evento</label>
-                            <input type="text" id="event-nombre" placeholder="Ej. Reunión Mensual de Equipo" maxlength="80">
+                <div class="welcome-info-top">
+                    <h2 class="welcome-title">Convivio Médico Familiar 2026</h2>
+                </div>
+
+                <div class="agenda-video-grid">
+                    <!-- Left Column: Programa de Actividades -->
+                    <div class="agenda-column">
+                        <h2 class="agenda-title">Programa de Actividades</h2>
+                        <div class="agenda-accent-line"></div>
+
+                        <div class="agenda-list">
+                            <div class="agenda-row">
+                                <div class="agenda-time">6:00 a.m.</div>
+                                <div class="agenda-separator"></div>
+                                <div class="agenda-activity">Carrera atlética</div>
+                            </div>
+                            <div class="agenda-row">
+                                <div class="agenda-time">8:30 a.m.</div>
+                                <div class="agenda-separator"></div>
+                                <div class="agenda-activity">Carrera de caballitos de palo</div>
+                            </div>
+                            <div class="agenda-row">
+                                <div class="agenda-time">10:00 a.m.</div>
+                                <div class="agenda-separator"></div>
+                                <div class="agenda-activity">Zumba</div>
+                            </div>
+                            <div class="agenda-row">
+                                <div class="agenda-time">2:00 p.m.</div>
+                                <div class="agenda-separator"></div>
+                                <div class="agenda-activity">Taller de Mixología</div>
+                            </div>
+                            <div class="agenda-row">
+                                <div class="agenda-time">2:00 p.m.</div>
+                                <div class="agenda-separator"></div>
+                                <div class="agenda-activity">Taller de Barismo</div>
+                            </div>
+                            <div class="agenda-row">
+                                <div class="agenda-time">6:00 p.m.</div>
+                                <div class="agenda-separator"></div>
+                                <div class="agenda-activity">Concierto con La Kuarta</div>
+                            </div>
+                            <div class="agenda-row">
+                                <div class="agenda-time">8:00 p.m.</div>
+                                <div class="agenda-separator"></div>
+                                <div class="agenda-activity">Música en vivo con DJ Jeff</div>
+                            </div>
+                            <div class="agenda-row">
+                                <div class="agenda-time">9:00 p.m.</div>
+                                <div class="agenda-separator"></div>
+                                <div class="agenda-activity">Concierto con Érick León y la Jungla</div>
+                            </div>
                         </div>
-                        <div class="form-field">
-                            <label for="event-fecha">Fecha</label>
-                            <input type="date" id="event-fecha">
+                    </div>
+
+                    <!-- Right Column: Video/Image Access -->
+                    <div class="video-column">
+                        <div class="video-link-wrapper" aria-label="Ver video del Convivio 2026" tabindex="0" role="button">
+                            <div class="video-media-box">
+                                <div class="video-cover-assets">
+                                    <div class="video-thumbnail video-thumbnail-placeholder"></div>
+                                    <div class="video-play-overlay">
+                                        <div class="play-circle">
+                                            <svg class="play-triangle" viewBox="0 0 24 24" fill="currentColor"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                                            </svg>
+                                        </div>
+                                        <span class="play-label">Ver video</span>
+                                    </div>
+                                </div>
+                                <div class="video-player-container" style="display: none;"></div>
+                            </div>
                         </div>
-                        <div class="form-field">
-                            <label for="event-lugar">Lugar</label>
-                            <input type="text" id="event-lugar" placeholder="Ej. Sala de Conferencias" maxlength="80">
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-small">Guardar Datos</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Summary Stats (Bento Grid) -->
-        <section class="stats-section" id="resumen">
+        <!-- Requirements Section (Bento Grid) -->
+        <section class="requirements-section">
             <div class="container">
                 <div class="requirements-header">
-                    <h2 class="requirements-title">Resumen de Asistencia</h2>
+                    <h2 class="requirements-title">Requisitos para Asistir</h2>
                     <p class="requirements-subtitle">
-                        Visualiza en tiempo real cuántas personas se han registrado y confirmado su asistencia.
+                        Para garantizar una experiencia segura y organizada para todos, te pedimos revisar los
+                        siguientes lineamientos antes de tu registro.
                     </p>
                 </div>
                 <div class="bento-grid">
+                    <!-- Card 1: Requisitos y Carné -->
                     <div class="bento-card bento-card-standard">
                         <div>
-                            <div class="bento-icon bento-icon-blue">
+                            <div class="bento-icon">
                                 <svg class="icon-svg" viewBox="0 0 24 24">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="9" cy="7" r="4"></circle>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                    <circle cx="9" cy="10" r="2"></circle>
+                                    <path d="M14 10h4"></path>
+                                    <path d="M14 14h4"></path>
+                                    <path d="M5 16a4 4 0 0 1 8 0"></path>
                                 </svg>
                             </div>
-                            <h3>Total Registrados</h3>
-                            <p class="stat-number" id="stat-total">0</p>
+                            <h3>Requisitos y Carné</h3>
+                            <p style="margin-bottom: 0.5rem; font-size: 14px; line-height: 1.4;">
+                                • Estar al día con el pago de sus obligaciones con el Colegio de Médicos y Cirujanos.
+                            </p>
+                            <p style="margin-bottom: 0.5rem; font-size: 14px; line-height: 1.4;">
+                                • Llevar su carné del CMC (puede obtenerlo de forma virtual a través de la App CMC Costa
+                                Rica).
+                            </p>
+                            <p style="font-size: 14px; line-height: 1.4;">
+                                • Prohibido el ingreso de armas, bebidas alcohólicas y sustancias ilícitas
+                            </p>
                         </div>
-                        <div class="bento-footer">Personas en la lista</div>
+                        <div class="bento-footer">Obligatorio</div>
                     </div>
+                    <!-- Card 2: Ingreso y Convivencia (Featured) -->
                     <div class="bento-card bento-card-featured">
                         <div>
                             <div class="bento-icon">
-                                <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 21a4 4 0 0 1 7-3" />
+                                    <circle cx="6.5" cy="11.5" r="2.5" />
+                                    <path d="M15 18a4 4 0 0 1 7 3" />
+                                    <circle cx="17.5" cy="11.5" r="2.5" />
+                                    <path d="M7 21a5 5 0 0 1 10 0" />
+                                    <circle cx="12" cy="9" r="3.5" />
                                 </svg>
                             </div>
-                            <h3>Presentes</h3>
-                            <p class="stat-number" id="stat-presentes">0</p>
+                            <h3>Ingreso y Convivencia</h3>
+                            <p style="margin-bottom: 0.75rem;">
+                                • El agremiado debe presentarse al Parque de Diversiones junto con sus familiares para
+                                que puedan ingresar.
+                            </p>
+                            <p>
+                                • El ingreso al Parque de Diversiones inicia a las 9:00 a.m. Únicamente ingresan antes
+                                las personas que participarán de la carrera atlética y carrera de caballitos de palo.
+                            </p>
                         </div>
-                        <div class="bento-footer">Confirmados hoy</div>
+                        <div class="bento-footer">Ingreso Grupal</div>
                     </div>
+                    <!-- Card 3: Cancelaciones -->
                     <div class="bento-card bento-card-standard">
                         <div>
-                            <div class="bento-icon bento-icon-red">
+                            <div class="bento-icon">
                                 <svg class="icon-svg" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="15" y1="9" x2="9" y2="15"></line>
-                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    <path d="M8 2v4"></path>
+                                    <path d="M16 2v4"></path>
+                                    <path d="M21 17V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11"></path>
+                                    <path d="M3 10h18"></path>
+                                    <path d="m16 20 2 2 4-4"></path>
                                 </svg>
                             </div>
-                            <h3>Ausentes</h3>
-                            <p class="stat-number" id="stat-ausentes">0</p>
+                            <h3>Cancelaciones</h3>
+                            <p style="font-size: 14px; line-height: 1.4;">
+                                • Si reservó y no podrá asistir, comuníquelo a más tardar el 17 de agosto al correo
+                                <a href="mailto:reservas@medicos.cr"
+                                    style="color: var(--color-primary); text-decoration: underline; font-weight: 500;">reservas@medicos.cr</a>,
+                                de lo contrario, se le limitará a futuras actividades organizadas por el Colegio de
+                                Médicos y Cirujanos.
+                            </p>
                         </div>
-                        <div class="bento-footer">Pendientes de llegar</div>
+                        <div class="bento-footer">Límite: 17 Ago</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Registration Form -->
-        <section class="registro-section" id="registro">
-            <div class="container">
-                <div class="card-panel">
-                    <h2 class="section-title">Agregar Asistente</h2>
-                    <div class="agenda-accent-line"></div>
-                    <form id="attendee-form" class="attendee-form">
-                        <div class="form-field">
-                            <label for="attendee-nombre">Nombre completo *</label>
-                            <input type="text" id="attendee-nombre" placeholder="Nombre y apellidos" required maxlength="100">
-                        </div>
-                        <div class="form-field">
-                            <label for="attendee-id">Cédula / Carné</label>
-                            <input type="text" id="attendee-id" placeholder="Número de identificación" maxlength="40">
-                        </div>
-                        <div class="form-field">
-                            <label for="attendee-grupo">Grupo / Categoría</label>
-                            <input type="text" id="attendee-grupo" placeholder="Ej. Invitado, Staff, Familia" maxlength="60">
-                        </div>
-                        <button type="submit" class="btn btn-orange btn-small">
-                            + Agregar a la Lista
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
+        <!-- Registration CTA Banner + Carousel -->
+        <section class="cta-section" id="registro-cta">
+            <div class="cta-circle-1"></div>
+            <div class="cta-circle-2"></div>
+            <div class="cta-content">
+                <h2 class="cta-title">Convivios Anteriores</h2>
+                <p class="cta-desc">
+                    Reviva algunos de los momentos más alegres y especiales de nuestras ediciones pasadas.
+                </p>
 
-        <!-- Attendance List -->
-        <section class="lista-section" id="lista">
-            <div class="container">
-                <div class="lista-header">
-                    <h2 class="requirements-title">Lista de Asistentes</h2>
-                    <div class="lista-tools">
-                        <input type="search" id="search-input" class="search-input" placeholder="Buscar por nombre, cédula o grupo...">
-                        <div class="filter-buttons" role="group" aria-label="Filtrar asistentes">
-                            <button class="filter-btn active" data-filter="todos">Todos</button>
-                            <button class="filter-btn" data-filter="presentes">Presentes</button>
-                            <button class="filter-btn" data-filter="ausentes">Ausentes</button>
-                        </div>
+                <!-- Past Convivios Carousel -->
+                <div class="carousel-container animate-fadeInUp">
+                    <div class="carousel-track-container">
+                        <ul class="carousel-track">
+                            <li class="carousel-slide active">
+                                <div class="carousel-placeholder">Edición 2024 · Foto 1</div>
+                            </li>
+                            <li class="carousel-slide">
+                                <div class="carousel-placeholder">Edición 2024 · Foto 2</div>
+                            </li>
+                            <li class="carousel-slide">
+                                <div class="carousel-placeholder">Edición 2025 · Foto 1</div>
+                            </li>
+                            <li class="carousel-slide">
+                                <div class="carousel-placeholder">Edición 2025 · Foto 2</div>
+                            </li>
+                            <li class="carousel-slide">
+                                <div class="carousel-placeholder">Edición 2025 · Foto 3</div>
+                            </li>
+                            <li class="carousel-slide">
+                                <div class="carousel-placeholder">Edición 2025 · Foto 4</div>
+                            </li>
+                            <li class="carousel-slide">
+                                <div class="carousel-placeholder">Edición 2025 · Foto 5</div>
+                            </li>
+                        </ul>
                     </div>
-                </div>
 
-                <div class="table-wrapper">
-                    <table class="attendee-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Cédula / Carné</th>
-                                <th>Grupo</th>
-                                <th>Hora</th>
-                                <th>Estado</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="attendee-tbody">
-                            <!-- Rows injected by JS -->
-                        </tbody>
-                    </table>
-                    <p class="empty-state" id="empty-state">Aún no hay personas registradas. Agrega la primera desde el formulario de arriba.</p>
-                </div>
+                    <!-- Carousel Buttons -->
+                    <button class="carousel-button carousel-button--left" aria-label="Foto anterior">
+                        <svg class="icon-svg" viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="carousel-button carousel-button--right" aria-label="Siguiente foto">
+                        <svg class="icon-svg" viewBox="0 0 24 24">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
 
-                <div class="lista-actions">
-                    <button class="btn btn-glass-blue btn-small" id="export-btn">Exportar CSV</button>
-                    <button class="btn btn-glass-red btn-small" id="clear-btn">Vaciar Lista</button>
+                    <!-- Carousel Dots -->
+                    <div class="carousel-nav">
+                        <button class="carousel-indicator active" aria-label="Ir a foto 1"></button>
+                        <button class="carousel-indicator" aria-label="Ir a foto 2"></button>
+                        <button class="carousel-indicator" aria-label="Ir a foto 3"></button>
+                        <button class="carousel-indicator" aria-label="Ir a foto 4"></button>
+                        <button class="carousel-indicator" aria-label="Ir a foto 5"></button>
+                        <button class="carousel-indicator" aria-label="Ir a foto 6"></button>
+                        <button class="carousel-indicator" aria-label="Ir a foto 7"></button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -199,13 +288,41 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
-                <div class="footer-logo">LISTA DE ASISTENCIA</div>
+                <div class="footer-logo">CONVIVIO FAMILIAR 2026</div>
                 <p class="footer-tagline">
-                    Control de participantes simple, rápido y guardado en tu propio navegador.
+                    Para el disfrute de todos los agremiados y sus familias.
                 </p>
             </div>
             <div class="footer-social-section">
-                <p class="footer-copyright">© 2026 Lista de Asistencia. Datos guardados localmente.</p>
+                <div class="footer-social-icons">
+                    <a class="footer-social-btn" href="https://www.facebook.com/" target="_blank" rel="noopener"
+                        aria-label="Facebook">
+                        <svg class="icon-svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <a class="footer-social-btn" href="https://www.youtube.com/" target="_blank" rel="noopener"
+                        aria-label="YouTube">
+                        <svg class="icon-svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.54a29 29 0 0 0 .46 5.12 2.78 2.78 0 0 0 1.95 1.96C5.12 19.08 12 19.08 12 19.08s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96 29 29 0 0 0 .46-5.12 29 29 0 0 0-.46-5.12z">
+                            </path>
+                            <polygon points="9.75 15.02 15.5 11.54 9.75 8.06 9.75 15.02" fill="currentColor"></polygon>
+                        </svg>
+                    </a>
+                    <a class="footer-social-btn" href="https://www.instagram.com/" target="_blank" rel="noopener"
+                        aria-label="Instagram">
+                        <svg class="icon-svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </div>
+                <p class="footer-copyright">© 2026 CONVIVIO FAMILIAR. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>

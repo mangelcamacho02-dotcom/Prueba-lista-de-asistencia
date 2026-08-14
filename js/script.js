@@ -1,284 +1,207 @@
 /* ==========================================================================
-   LISTA DE ASISTENCIA - Interactive Script
-   Persists attendees and event info in localStorage.
+   CONVIVIO FAMILIAR 2026 - Interactive Script
+   Clon de comportamiento de convivio.medicos.cr/site/
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const STORAGE_KEY = 'asistencia_lista';
-    const EVENT_KEY = 'asistencia_evento';
+    // Add js-enabled class to document element for progressive enhancement styles
+    document.documentElement.classList.add('js-enabled');
 
-    const tbody = document.getElementById('attendee-tbody');
-    const emptyState = document.getElementById('empty-state');
-    const table = document.querySelector('.attendee-table');
-    const searchInput = document.getElementById('search-input');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const statTotal = document.getElementById('stat-total');
-    const statPresentes = document.getElementById('stat-presentes');
-    const statAusentes = document.getElementById('stat-ausentes');
-    const heroEventName = document.getElementById('hero-event-name');
-    const heroEventMeta = document.getElementById('hero-event-meta').querySelector('span');
+    // --------------------------------------------------------------------------
+    // 1. INTERSECTION OBSERVER FOR STAGGERED REVEALS
+    // --------------------------------------------------------------------------
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
 
-    let attendees = loadAttendees();
-    let currentFilter = 'todos';
-    let currentSearch = '';
-
-    // --------------------------------------------------------------------
-    // Persistence helpers
-    // --------------------------------------------------------------------
-    function loadAttendees() {
-        try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            return raw ? JSON.parse(raw) : [];
-        } catch (e) {
-            return [];
-        }
-    }
-
-    function saveAttendees() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(attendees));
-    }
-
-    function loadEvent() {
-        try {
-            const raw = localStorage.getItem(EVENT_KEY);
-            return raw ? JSON.parse(raw) : {};
-        } catch (e) {
-            return {};
-        }
-    }
-
-    function saveEvent(data) {
-        localStorage.setItem(EVENT_KEY, JSON.stringify(data));
-    }
-
-    // --------------------------------------------------------------------
-    // Event configuration
-    // --------------------------------------------------------------------
-    function renderEvent() {
-        const evt = loadEvent();
-        document.getElementById('event-nombre').value = evt.nombre || '';
-        document.getElementById('event-fecha').value = evt.fecha || '';
-        document.getElementById('event-lugar').value = evt.lugar || '';
-
-        heroEventName.textContent = evt.nombre || 'Registro rápido de participantes para tu evento';
-
-        const metaParts = [];
-        if (evt.fecha) {
-            const [y, m, d] = evt.fecha.split('-');
-            if (y && m && d) metaParts.push(`${d}/${m}/${y}`);
-        }
-        if (evt.lugar) metaParts.push(evt.lugar);
-        heroEventMeta.textContent = metaParts.length ? metaParts.join(' · ') : 'Configura tu evento abajo';
-    }
-
-    document.getElementById('event-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const data = {
-            nombre: document.getElementById('event-nombre').value.trim(),
-            fecha: document.getElementById('event-fecha').value,
-            lugar: document.getElementById('event-lugar').value.trim()
-        };
-        saveEvent(data);
-        renderEvent();
-    });
-
-    renderEvent();
-
-    // --------------------------------------------------------------------
-    // Attendee CRUD
-    // --------------------------------------------------------------------
-    function addAttendee(nombre, identificacion, grupo) {
-        attendees.push({
-            id: Date.now() + Math.random().toString(16).slice(2),
-            nombre,
-            identificacion,
-            grupo,
-            presente: true,
-            hora: new Date().toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' })
-        });
-        saveAttendees();
-        render();
-    }
-
-    function toggleStatus(id) {
-        const attendee = attendees.find(a => a.id === id);
-        if (attendee) {
-            attendee.presente = !attendee.presente;
-            saveAttendees();
-            render();
-        }
-    }
-
-    function deleteAttendee(id) {
-        attendees = attendees.filter(a => a.id !== id);
-        saveAttendees();
-        render();
-    }
-
-    document.getElementById('attendee-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const nombreInput = document.getElementById('attendee-nombre');
-        const idInput = document.getElementById('attendee-id');
-        const grupoInput = document.getElementById('attendee-grupo');
-
-        const nombre = nombreInput.value.trim();
-        if (!nombre) return;
-
-        addAttendee(nombre, idInput.value.trim(), grupoInput.value.trim());
-
-        nombreInput.value = '';
-        idInput.value = '';
-        grupoInput.value = '';
-        nombreInput.focus();
-    });
-
-    // --------------------------------------------------------------------
-    // Rendering
-    // --------------------------------------------------------------------
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
-
-    function getFilteredAttendees() {
-        return attendees.filter(a => {
-            if (currentFilter === 'presentes' && !a.presente) return false;
-            if (currentFilter === 'ausentes' && a.presente) return false;
-
-            if (currentSearch) {
-                const haystack = `${a.nombre} ${a.identificacion} ${a.grupo}`.toLowerCase();
-                if (!haystack.includes(currentSearch)) return false;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains('bento-card')) {
+                    const cards = Array.from(entry.target.parentElement.children);
+                    const index = cards.indexOf(entry.target);
+                    entry.target.style.setProperty('--stagger-delay', `${index * 0.15}s`);
+                    entry.target.classList.add('bento-card-visible');
+                } else {
+                    entry.target.classList.add('visible');
+                }
+                observer.unobserve(entry.target);
             }
-            return true;
         });
-    }
+    }, observerOptions);
 
-    function render() {
-        const filtered = getFilteredAttendees();
-
-        tbody.innerHTML = filtered.map(a => `
-            <tr data-id="${a.id}">
-                <td>${escapeHtml(a.nombre)}</td>
-                <td>${escapeHtml(a.identificacion) || '—'}</td>
-                <td>${escapeHtml(a.grupo) || '—'}</td>
-                <td>${a.hora}</td>
-                <td>
-                    <button class="status-pill ${a.presente ? 'presente' : 'ausente'}" data-action="toggle" data-id="${a.id}">
-                        ${a.presente ? 'Presente' : 'Ausente'}
-                    </button>
-                </td>
-                <td>
-                    <button class="delete-btn" data-action="delete" data-id="${a.id}" aria-label="Eliminar">
-                        <svg class="icon-svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="3 6 5 6 21 6"></polyline>
-                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                            <path d="M10 11v6"></path>
-                            <path d="M14 11v6"></path>
-                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
-                        </svg>
-                    </button>
-                </td>
-            </tr>
-        `).join('');
-
-        const hasAny = attendees.length > 0;
-        const hasFiltered = filtered.length > 0;
-
-        table.classList.toggle('hidden', !hasFiltered);
-        emptyState.classList.toggle('visible', !hasFiltered);
-        emptyState.textContent = hasAny
-            ? 'Ningún asistente coincide con la búsqueda o el filtro seleccionado.'
-            : 'Aún no hay personas registradas. Agrega la primera desde el formulario de arriba.';
-
-        updateStats();
-    }
-
-    function updateStats() {
-        const total = attendees.length;
-        const presentes = attendees.filter(a => a.presente).length;
-        const ausentes = total - presentes;
-
-        statTotal.textContent = total;
-        statPresentes.textContent = presentes;
-        statAusentes.textContent = ausentes;
-    }
-
-    tbody.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-action]');
-        if (!btn) return;
-        const id = btn.getAttribute('data-id');
-        if (btn.dataset.action === 'toggle') toggleStatus(id);
-        if (btn.dataset.action === 'delete') deleteAttendee(id);
+    document.querySelectorAll('.bento-card').forEach(card => {
+        observer.observe(card);
     });
 
-    // --------------------------------------------------------------------
-    // Search & filters
-    // --------------------------------------------------------------------
-    searchInput.addEventListener('input', (e) => {
-        currentSearch = e.target.value.trim().toLowerCase();
-        render();
-    });
-
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = btn.dataset.filter;
-            render();
+    // --------------------------------------------------------------------------
+    // 2. ACTIVE STATES AND MICRO-INTERACTIONS
+    // --------------------------------------------------------------------------
+    document.querySelectorAll('.btn, button, a').forEach(el => {
+        el.addEventListener('mousedown', () => {
+            el.style.transform = 'scale(0.96)';
         });
+        el.addEventListener('mouseup', () => {
+            el.style.transform = '';
+        });
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = '';
+        });
+
+        el.addEventListener('touchstart', () => {
+            el.style.transform = 'scale(0.96)';
+        }, { passive: true });
+        el.addEventListener('touchend', () => {
+            el.style.transform = '';
+        }, { passive: true });
+        el.addEventListener('touchcancel', () => {
+            el.style.transform = '';
+        }, { passive: true });
     });
 
-    // --------------------------------------------------------------------
-    // Export & clear
-    // --------------------------------------------------------------------
-    document.getElementById('export-btn').addEventListener('click', () => {
-        if (attendees.length === 0) return;
+    // --------------------------------------------------------------------------
+    // 3. IMAGE CAROUSEL FOR PAST CONVIVIOS
+    // --------------------------------------------------------------------------
+    const track = document.querySelector('.carousel-track');
+    if (track) {
+        const slides = Array.from(track.children);
+        const nextButton = document.querySelector('.carousel-button--right');
+        const prevButton = document.querySelector('.carousel-button--left');
+        const dotsNav = document.querySelector('.carousel-nav');
+        const dots = Array.from(dotsNav.children);
 
-        const header = ['Nombre', 'Cedula/Carne', 'Grupo', 'Hora', 'Estado'];
-        const rows = attendees.map(a => [
-            a.nombre,
-            a.identificacion,
-            a.grupo,
-            a.hora,
-            a.presente ? 'Presente' : 'Ausente'
-        ]);
+        let currentSlideIndex = 0;
+        let autoPlayTimer = null;
 
-        const csv = [header, ...rows]
-            .map(row => row.map(field => `"${String(field || '').replace(/"/g, '""')}"`).join(','))
-            .join('\n');
+        const moveToSlide = (targetIndex) => {
+            slides[currentSlideIndex].classList.remove('active');
+            dots[currentSlideIndex].classList.remove('active');
 
-        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'lista-de-asistencia.csv';
-        link.click();
-        URL.revokeObjectURL(url);
-    });
+            slides[targetIndex].classList.add('active');
+            dots[targetIndex].classList.add('active');
 
-    document.getElementById('clear-btn').addEventListener('click', () => {
-        if (attendees.length === 0) return;
-        if (confirm('¿Seguro que deseas vaciar toda la lista de asistencia? Esta acción no se puede deshacer.')) {
-            attendees = [];
-            saveAttendees();
-            render();
+            currentSlideIndex = targetIndex;
+        };
+
+        const handleNext = () => {
+            const nextIndex = (currentSlideIndex + 1) % slides.length;
+            moveToSlide(nextIndex);
+            resetAutoPlay();
+        };
+
+        const handlePrev = () => {
+            const prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+            moveToSlide(prevIndex);
+            resetAutoPlay();
+        };
+
+        if (nextButton && prevButton) {
+            nextButton.addEventListener('click', handleNext);
+            prevButton.addEventListener('click', handlePrev);
         }
-    });
 
-    // --------------------------------------------------------------------
-    // Button press micro-interaction
-    // --------------------------------------------------------------------
-    document.addEventListener('mousedown', (e) => {
-        const el = e.target.closest('.btn');
-        if (el) el.style.transform = 'scale(0.96)';
-    });
-    ['mouseup', 'mouseleave'].forEach(evt => {
-        document.addEventListener(evt, (e) => {
-            const el = e.target.closest ? e.target.closest('.btn') : null;
-            if (el) el.style.transform = '';
+        if (dotsNav) {
+            dotsNav.addEventListener('click', e => {
+                const targetDot = e.target.closest('button');
+                if (!targetDot) return;
+
+                const targetIndex = dots.indexOf(targetDot);
+                moveToSlide(targetIndex);
+                resetAutoPlay();
+            });
+        }
+
+        const startAutoPlay = () => {
+            autoPlayTimer = setInterval(() => {
+                const nextIndex = (currentSlideIndex + 1) % slides.length;
+                moveToSlide(nextIndex);
+            }, 5000);
+        };
+
+        const resetAutoPlay = () => {
+            clearInterval(autoPlayTimer);
+            startAutoPlay();
+        };
+
+        startAutoPlay();
+    }
+
+    // --------------------------------------------------------------------------
+    // 4. VIDEO INLINE PLAYER (reemplaza la carátula al hacer clic)
+    // --------------------------------------------------------------------------
+    const videoWrapper = document.querySelector('.video-link-wrapper');
+    if (videoWrapper) {
+        const startInlineVideo = () => {
+            const cover = videoWrapper.querySelector('.video-cover-assets');
+            const playerContainer = videoWrapper.querySelector('.video-player-container');
+            const videoUrl = videoWrapper.getAttribute('data-video-url');
+
+            if (playerContainer && cover) {
+                cover.style.display = 'none';
+                playerContainer.style.display = 'block';
+                playerContainer.innerHTML = '';
+
+                if (videoUrl && (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be'))) {
+                    let videoId = '';
+                    if (videoUrl.includes('youtube.com/watch?v=')) {
+                        videoId = videoUrl.split('v=')[1].split('&')[0];
+                    } else if (videoUrl.includes('youtu.be/')) {
+                        videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+                    } else if (videoUrl.includes('youtube.com/embed/')) {
+                        videoId = videoUrl.split('embed/')[1].split('?')[0];
+                    }
+
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                    iframe.title = 'Convivio 2026 Video';
+                    iframe.frameBorder = '0';
+                    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                    iframe.allowFullscreen = true;
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    iframe.style.border = 'none';
+                    playerContainer.appendChild(iframe);
+                } else if (videoUrl && videoUrl.includes('vimeo.com')) {
+                    const videoId = videoUrl.split('vimeo.com/')[1].split('?')[0];
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+                    iframe.title = 'Convivio 2026 Video';
+                    iframe.frameBorder = '0';
+                    iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+                    iframe.allowFullscreen = true;
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    iframe.style.border = 'none';
+                    playerContainer.appendChild(iframe);
+                } else if (videoUrl) {
+                    const video = document.createElement('video');
+                    video.src = videoUrl;
+                    video.controls = true;
+                    video.autoplay = true;
+                    video.playsInline = true;
+                    video.style.width = '100%';
+                    video.style.height = '100%';
+                    video.style.objectFit = 'cover';
+                    playerContainer.appendChild(video);
+                } else {
+                    playerContainer.innerHTML = '<p style="color:#fff; padding:1.5rem; font-size:14px;">Agrega tu video real asignando el atributo data-video-url al .video-link-wrapper (URL de YouTube, Vimeo o archivo .mp4).</p>';
+                }
+
+                videoWrapper.removeEventListener('click', startInlineVideo);
+                videoWrapper.style.cursor = 'default';
+                videoWrapper.style.transform = 'none';
+                videoWrapper.style.boxShadow = '0 10px 30px -10px rgba(0, 0, 0, 0.12)';
+            }
+        };
+
+        videoWrapper.addEventListener('click', startInlineVideo);
+        videoWrapper.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                startInlineVideo();
+            }
         });
-    });
-
-    render();
+    }
 });
