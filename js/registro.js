@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const counterEl = document.getElementById('lookup-counter');
     const resetBtn = document.getElementById('lookup-reset-btn');
     const checkinActions = document.getElementById('checkin-actions');
+    const exportBtn = document.getElementById('export-btn');
 
     const fields = {
         primerApellido: document.getElementById('result-primer-apellido'),
@@ -152,5 +153,49 @@ document.addEventListener('DOMContentLoaded', () => {
         resultCard.classList.remove('visible');
         errorBox.classList.remove('visible');
         codeInput.focus();
+    });
+
+    // --------------------------------------------------------------------
+    // Exportar lista de asistencia (solo códigos con check-in confirmado)
+    // --------------------------------------------------------------------
+    function csvField(value) {
+        return `"${String(value ?? '').replace(/"/g, '""')}"`;
+    }
+
+    exportBtn.addEventListener('click', () => {
+        if (confirmados.size === 0) {
+            alert('Todavía no hay check-ins confirmados para exportar.');
+            return;
+        }
+
+        const header = ['Código', 'Primer Apellido', 'Segundo Apellido', 'Nombre', 'Total de Personas', 'Concierto Noche', 'Hora de Ingreso'];
+
+        const rows = Array.from(confirmados.entries())
+            .map(([codigo, checkin]) => {
+                const asistente = dataset.find(a => a.codigo.toUpperCase() === codigo) || {};
+                return {
+                    codigo,
+                    primerApellido: asistente.primerApellido || '',
+                    segundoApellido: asistente.segundoApellido || '',
+                    nombre: asistente.nombre || '',
+                    totalPersonas: asistente.totalPersonas ?? '',
+                    concierto: asistente.concierto ? 'Sí' : 'No',
+                    hora: checkin.horaTexto || ''
+                };
+            })
+            .sort((a, b) => a.hora.localeCompare(b.hora))
+            .map(r => [r.codigo, r.primerApellido, r.segundoApellido, r.nombre, r.totalPersonas, r.concierto, r.hora]);
+
+        const csv = [header, ...rows]
+            .map(row => row.map(csvField).join(','))
+            .join('\n');
+
+        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `asistencia-${actividad}-${new Date().toISOString().slice(0, 10)}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
     });
 });
