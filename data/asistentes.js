@@ -1,7 +1,9 @@
 /* ==========================================================================
    DATOS DE EJEMPLO - Códigos de registro
    Reemplaza estos arreglos con la lista real de familias/agremiados.
-   Cada actividad (día / noche) tiene su propia lista de códigos.
+   Cada actividad (día / noche) tiene su propia lista de códigos; por ahora
+   se usan los mismos códigos de ejemplo en ambas para poder probar los dos
+   flujos de registro.
 
    Campos de cada registro:
      codigo         - código único que ingresa el registrador (string)
@@ -10,21 +12,20 @@
      nombre         - nombre del agremiado
      totalPersonas  - total de personas que incluye el código (agremiado + familia)
      concierto      - true/false, si el grupo participa del concierto de la noche
+                      (no se especificó en los datos de ejemplo; queda en true
+                      por defecto hasta que se confirme el dato real)
    ========================================================================== */
 
-window.ASISTENTES_DIA = [
-  { codigo: "D001", primerApellido: "Rodríguez", segundoApellido: "Mora", nombre: "Juan", totalPersonas: 4, concierto: true },
-  { codigo: "D002", primerApellido: "Vargas", segundoApellido: "Solís", nombre: "María", totalPersonas: 2, concierto: false },
-  { codigo: "D003", primerApellido: "Jiménez", segundoApellido: "Castro", nombre: "Luis", totalPersonas: 1, concierto: true },
-  { codigo: "D004", primerApellido: "Fernández", segundoApellido: "Araya", nombre: "Ana", totalPersonas: 5, concierto: true },
-  { codigo: "D005", primerApellido: "Chacón", segundoApellido: "Rojas", nombre: "Pedro", totalPersonas: 3, concierto: false },
-  { codigo: "D006", primerApellido: "Núñez", segundoApellido: "Salas", nombre: "Sofía", totalPersonas: 2, concierto: true }
+const ASISTENTES_EJEMPLO = [
+  { codigo: "MED2010", nombre: "Mario", primerApellido: "Arias", segundoApellido: "Murillo", totalPersonas: 1, concierto: true },
+  { codigo: "MED11089", nombre: "Oscar", primerApellido: "Ledezma", segundoApellido: "Acevedo", totalPersonas: 3, concierto: true },
+  { codigo: "MED15225", nombre: "Javier", primerApellido: "Solera", segundoApellido: "Madrigal", totalPersonas: 3, concierto: true },
+  { codigo: "MED14727", nombre: "Oscar", primerApellido: "Ugalde", segundoApellido: "Jiménez", totalPersonas: 3, concierto: true },
+  { codigo: "MED16118", nombre: "Miguel", primerApellido: "Goyenaga", segundoApellido: "Elizondo", totalPersonas: 3, concierto: true },
+  { codigo: "MED16410", nombre: "Gerardo", primerApellido: "Villalobos", segundoApellido: "Zúñiga", totalPersonas: 3, concierto: true },
+  { codigo: "MED16221", nombre: "Kevin", primerApellido: "Rosales", segundoApellido: "Ledezma", totalPersonas: 3, concierto: true },
+  { codigo: "MED6415", nombre: "Mario", primerApellido: "Espinach", segundoApellido: "Roel", totalPersonas: 1, concierto: true }
 ];
 
-window.ASISTENTES_NOCHE = [
-  { codigo: "N001", primerApellido: "Rodríguez", segundoApellido: "Mora", nombre: "Juan", totalPersonas: 4, concierto: true },
-  { codigo: "N002", primerApellido: "Alvarado", segundoApellido: "Quesada", nombre: "Carlos", totalPersonas: 2, concierto: true },
-  { codigo: "N003", primerApellido: "Zúñiga", segundoApellido: "Bolaños", nombre: "Laura", totalPersonas: 6, concierto: true },
-  { codigo: "N004", primerApellido: "Fernández", segundoApellido: "Araya", nombre: "Ana", totalPersonas: 5, concierto: true },
-  { codigo: "N005", primerApellido: "Herrera", segundoApellido: "Campos", nombre: "Diego", totalPersonas: 1, concierto: false }
-];
+window.ASISTENTES_DIA = ASISTENTES_EJEMPLO;
+window.ASISTENTES_NOCHE = ASISTENTES_EJEMPLO;
