@@ -107,7 +107,10 @@
                 </div>
 
                 <div class="stats-group">
-                    <h2 class="stats-group-title">Total General (Día + Noche)</h2>
+                    <h2 class="stats-group-title">Asistencia General (Personas Únicas)</h2>
+                    <p class="stats-group-note">
+                        Cuenta una sola vez a quienes asistieron a ambas actividades, para no duplicarlos.
+                    </p>
                     <div class="bento-grid stats-bento-grid">
                         <div class="bento-card bento-card-standard">
                             <div>
@@ -117,10 +120,10 @@
                                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                                     </svg>
                                 </div>
-                                <h3>Médicos Ingresados</h3>
-                                <p class="stat-value" id="stat-total-medicos">0</p>
+                                <h3>Médicos Únicos Ingresados</h3>
+                                <p class="stat-value" id="stat-unico-medicos">0</p>
                             </div>
-                            <div class="bento-footer">Suma de ambas actividades</div>
+                            <div class="bento-footer">Día + Noche, sin duplicar</div>
                         </div>
                         <div class="bento-card bento-card-featured">
                             <div>
@@ -132,12 +135,65 @@
                                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                     </svg>
                                 </div>
-                                <h3>Total de Personas</h3>
-                                <p class="stat-value" id="stat-total-personas">0</p>
+                                <h3>Total de Personas Únicas</h3>
+                                <p class="stat-value" id="stat-unico-personas">0</p>
                             </div>
-                            <div class="bento-footer">Suma de ambas actividades</div>
+                            <div class="bento-footer">Incluye acompañantes, sin duplicar</div>
                         </div>
                     </div>
+
+                    <div class="bento-grid stats-breakdown-grid">
+                        <div class="bento-card bento-card-standard">
+                            <div>
+                                <div class="bento-icon bento-icon-turquoise">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="9" cy="12" r="6"></circle>
+                                        <circle cx="15" cy="12" r="6"></circle>
+                                    </svg>
+                                </div>
+                                <h3>Ambas Actividades</h3>
+                                <p class="stat-value" id="stat-ambas">0</p>
+                            </div>
+                            <div class="bento-footer">Día y Noche</div>
+                        </div>
+                        <div class="bento-card bento-card-standard">
+                            <div>
+                                <div class="bento-icon bento-icon-blue">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="5"></circle>
+                                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    </svg>
+                                </div>
+                                <h3>Solo Día</h3>
+                                <p class="stat-value" id="stat-solo-dia">0</p>
+                            </div>
+                            <div class="bento-footer">No asistió de noche</div>
+                        </div>
+                        <div class="bento-card bento-card-standard">
+                            <div>
+                                <div class="bento-icon bento-icon-orange">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                    </svg>
+                                </div>
+                                <h3>Solo Noche</h3>
+                                <p class="stat-value" id="stat-solo-noche">0</p>
+                            </div>
+                            <div class="bento-footer">No asistió de día</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="export-actions">
+                    <button type="button" class="export-btn" id="export-btn">
+                        <svg class="icon-svg export-btn-icon" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 15V3"></path>
+                            <path d="m7 10 5 5 5-5"></path>
+                            <path d="M21 21H3"></path>
+                        </svg>
+                        <span id="export-btn-label">Exportar Estadísticas (Excel)</span>
+                    </button>
                 </div>
             </div>
         </section>
@@ -155,6 +211,7 @@
     </footer>
 
     <script src="data/asistentes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
     <script type="module" src="js/estadisticas.js"></script>
 </body>
 

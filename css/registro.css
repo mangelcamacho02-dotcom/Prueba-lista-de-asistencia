@@ -321,7 +321,17 @@
   font-weight: 700;
   color: var(--color-inst-blue);
   text-align: left;
+  margin-bottom: 0.5rem;
+}
+
+.stats-group-note {
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
   margin-bottom: 1.25rem;
+}
+
+.stats-breakdown-grid {
+  margin-top: 1.5rem;
 }
 
 .stats-bento-grid {
@@ -365,4 +375,33 @@
   border-radius: var(--radius-full);
   background-color: var(--color-inst-turquoise);
   animation: pulse-blue 2s infinite ease-in-out;
+}
+
+/* Utilidades de color de ícono, independientes de la posición de la
+   tarjeta (a diferencia de las reglas :nth-child del sitio original) */
+.bento-icon-blue {
+  background-color: rgba(0, 96, 168, 0.1);
+  color: var(--color-inst-blue);
+}
+
+.bento-icon-orange {
+  background-color: var(--color-inst-orange);
+  color: #ffffff;
+}
+
+.bento-icon-turquoise {
+  background-color: rgba(0, 155, 162, 0.12);
+  color: var(--color-inst-turquoise);
+}
+
+.bento-icon-red {
+  background-color: rgba(227, 27, 35, 0.1);
+  color: var(--color-inst-red);
+}
+
+/* Fila de desglose (Ambas / Solo Día / Solo Noche): 3 tarjetas estándar,
+   sin tarjeta "featured", así que necesitan su propio pie con borde */
+.stats-breakdown-grid .bento-card-standard .bento-footer {
+  border-top: 1px solid rgba(193, 199, 210, 0.2);
+  color: var(--color-on-surface-variant);
 }
