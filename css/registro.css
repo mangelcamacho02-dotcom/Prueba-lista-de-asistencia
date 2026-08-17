@@ -303,3 +303,66 @@
   width: 18px;
   height: 18px;
 }
+
+/* ==========================================================================
+   ESTADÍSTICAS
+   ========================================================================== */
+.stats-group {
+  margin-bottom: 3rem;
+}
+
+.stats-group:last-child {
+  margin-bottom: 0;
+}
+
+.stats-group-title {
+  font-family: var(--font-headline);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-inst-blue);
+  text-align: left;
+  margin-bottom: 1.25rem;
+}
+
+.stats-bento-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .stats-bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat-value {
+  font-family: var(--font-headline);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.bento-card-standard .stat-value {
+  color: var(--color-on-background);
+}
+
+.bento-card-featured .stat-value {
+  color: #ffffff;
+}
+
+.stats-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-on-surface-variant);
+  margin-bottom: 2rem;
+}
+
+.stats-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-inst-turquoise);
+  animation: pulse-blue 2s infinite ease-in-out;
+}

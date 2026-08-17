@@ -417,6 +417,7 @@ img {
   gap: 1rem;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 @media (min-width: 640px) {

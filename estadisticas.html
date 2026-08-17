@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Estadísticas - Convivio Familiar 2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/registro.css">
+</head>
+
+<body>
+
+    <div class="registro-topbar">
+        <div class="container">
+            <a href="index.html" class="registro-back-link">
+                <svg class="icon-svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Volver al inicio
+            </a>
+            <span class="registro-topbar-title">Convivio Familiar 2026</span>
+        </div>
+    </div>
+
+    <main>
+        <section class="registro-hero">
+            <h1 class="registro-hero-title">Estadísticas del Convivio</h1>
+            <p class="registro-hero-subtitle">
+                Datos en tiempo real de los check-ins confirmados en ambas actividades.
+            </p>
+        </section>
+
+        <section class="registro-main">
+            <div class="container">
+                <span class="stats-live-indicator">
+                    <span class="stats-live-dot"></span>
+                    Actualizando en tiempo real
+                </span>
+
+                <div class="stats-group">
+                    <h2 class="stats-group-title">Actividad de Día</h2>
+                    <div class="bento-grid stats-bento-grid">
+                        <div class="bento-card bento-card-standard">
+                            <div>
+                                <div class="bento-icon bento-icon-blue">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </div>
+                                <h3>Médicos Ingresados</h3>
+                                <p class="stat-value" id="stat-dia-medicos">0</p>
+                            </div>
+                            <div class="bento-footer">Check-ins confirmados</div>
+                        </div>
+                        <div class="bento-card bento-card-featured">
+                            <div>
+                                <div class="bento-icon">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <h3>Total de Personas</h3>
+                                <p class="stat-value" id="stat-dia-personas">0</p>
+                            </div>
+                            <div class="bento-footer">Incluye acompañantes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-group">
+                    <h2 class="stats-group-title">Actividad de Noche</h2>
+                    <div class="bento-grid stats-bento-grid">
+                        <div class="bento-card bento-card-standard">
+                            <div>
+                                <div class="bento-icon bento-icon-blue">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </div>
+                                <h3>Médicos Ingresados</h3>
+                                <p class="stat-value" id="stat-noche-medicos">0</p>
+                            </div>
+                            <div class="bento-footer">Check-ins confirmados</div>
+                        </div>
+                        <div class="bento-card bento-card-featured">
+                            <div>
+                                <div class="bento-icon">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <h3>Total de Personas</h3>
+                                <p class="stat-value" id="stat-noche-personas">0</p>
+                            </div>
+                            <div class="bento-footer">Incluye acompañantes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-group">
+                    <h2 class="stats-group-title">Total General (Día + Noche)</h2>
+                    <div class="bento-grid stats-bento-grid">
+                        <div class="bento-card bento-card-standard">
+                            <div>
+                                <div class="bento-icon bento-icon-blue">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </div>
+                                <h3>Médicos Ingresados</h3>
+                                <p class="stat-value" id="stat-total-medicos">0</p>
+                            </div>
+                            <div class="bento-footer">Suma de ambas actividades</div>
+                        </div>
+                        <div class="bento-card bento-card-featured">
+                            <div>
+                                <div class="bento-icon">
+                                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <h3>Total de Personas</h3>
+                                <p class="stat-value" id="stat-total-personas">0</p>
+                            </div>
+                            <div class="bento-footer">Suma de ambas actividades</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">CONVIVIO FAMILIAR 2026</div>
+                <p class="footer-tagline">
+                    Para el disfrute de todos los agremiados y sus familias.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="data/asistentes.js"></script>
+    <script type="module" src="js/estadisticas.js"></script>
+</body>
+
+</html>
