@@ -525,6 +525,12 @@ img {
   height: 100%;
 }
 
+.agenda-standalone {
+  max-width: 700px;
+  margin-inline: auto;
+  height: auto;
+}
+
 .agenda-title {
   font-family: var(--font-headline);
   font-size: 28px;
