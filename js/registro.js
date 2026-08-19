@@ -1,18 +1,16 @@
 /* ==========================================================================
    REGISTRO / CHECK-IN - Lógica de consulta por código
-   Funciona en registro-dia.html, registro-noche.html, registro-mixologia.html
-   y registro-barismo.html. El atributo data-actividad en <body> decide qué
-   padrón usar y en qué colección de Firestore se guarda el check-in.
+   Funciona en registro-dia.html y registro-noche.html. El atributo
+   data-actividad en <body> decide qué padrón usar y en qué colección de
+   Firestore se guarda el ingreso.
+
+   (Los talleres Mixología/Barismo usan js/lista-taller.js: son grupos
+   pequeños y se muestran como lista completa en vez de búsqueda por código.)
 
    El registrador escribe solo el número del código (sin "MED"); la búsqueda
    normaliza tanto lo escrito como el padrón a solo dígitos para comparar.
 
-   Día y Noche incluyen total de personas y participación en el concierto;
-   los talleres (Mixología/Barismo) son individuales, así que esas dos filas
-   del resultado se ocultan automáticamente cuando el padrón no trae esos
-   datos.
-
-   El conteo y el estado de check-in se guardan en Firestore (no en
+   El conteo y el estado de ingreso se guardan en Firestore (no en
    localStorage), así que se sincronizan en tiempo real entre todos los
    dispositivos/puntos de registro conectados.
    ========================================================================== */
@@ -33,9 +31,7 @@ const db = getFirestore(app);
 
 const ACTIVIDAD_CONFIG = {
     dia: { roster: () => window.ASISTENTES_DIA, coleccion: 'checkins_dia' },
-    noche: { roster: () => window.ASISTENTES_NOCHE, coleccion: 'checkins_noche' },
-    mixologia: { roster: () => window.ASISTENTES_MIXOLOGIA, coleccion: 'checkins_mixologia' },
-    barismo: { roster: () => window.ASISTENTES_BARISMO, coleccion: 'checkins_barismo' }
+    noche: { roster: () => window.ASISTENTES_NOCHE, coleccion: 'checkins_noche' }
 };
 
 function normalizarCodigo(valor) {
@@ -105,14 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                     <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
-                <span>Check-in confirmado a las ${existing.horaTexto}</span>
+                <span>Ingreso confirmado a las ${existing.horaTexto}</span>
             `;
             checkinActions.appendChild(banner);
         } else {
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'btn btn-orange checkin-confirm-btn';
-            btn.textContent = 'Confirmar Check-in';
+            btn.textContent = 'Confirmar Ingreso';
             btn.addEventListener('click', async () => {
                 btn.disabled = true;
                 btn.textContent = 'Guardando...';
@@ -124,9 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // El listener onSnapshot actualiza la pantalla automáticamente.
                 } catch (err) {
                     btn.disabled = false;
-                    btn.textContent = 'Confirmar Check-in';
-                    alert('No se pudo guardar el check-in. Verifique su conexión e intente de nuevo.');
-                    console.error('Error guardando check-in:', err);
+                    btn.textContent = 'Confirmar Ingreso';
+                    alert('No se pudo guardar el ingreso. Verifique su conexión e intente de nuevo.');
+                    console.error('Error guardando ingreso:', err);
                 }
             });
             checkinActions.appendChild(btn);

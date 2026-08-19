@@ -27,51 +27,15 @@
         <section class="registro-hero">
             <h1 class="registro-hero-title">Taller Vitruvio de Mixología</h1>
             <p class="registro-hero-subtitle">
-                Ingrese el número de código del agremiado para consultar sus datos y confirmar el check-in.
+                Marque la confirmación de ingreso de cada persona en la lista.
             </p>
         </section>
 
         <section class="registro-main">
             <div class="container">
-                <div class="lookup-card">
-                    <p class="lookup-counter" id="lookup-counter">0 de 0 confirmados</p>
-
-                    <form id="lookup-form" class="lookup-form">
-                        <div class="lookup-field">
-                            <label for="codigo-input">Número de código</label>
-                            <input type="text" inputmode="numeric" id="codigo-input" placeholder="Ej. 13958" autocomplete="off" autofocus>
-                        </div>
-                        <button type="submit" class="btn btn-turquoise lookup-submit">Buscar</button>
-                    </form>
-
-                    <p class="lookup-error" id="lookup-error"></p>
-
-                    <div class="result-card" id="result-card">
-                        <div class="result-row">
-                            <span class="result-label">Primer Apellido</span>
-                            <span class="result-value" id="result-primer-apellido"></span>
-                        </div>
-                        <div class="result-row">
-                            <span class="result-label">Segundo Apellido</span>
-                            <span class="result-value" id="result-segundo-apellido"></span>
-                        </div>
-                        <div class="result-row">
-                            <span class="result-label">Nombre</span>
-                            <span class="result-value" id="result-nombre"></span>
-                        </div>
-                        <div class="result-row">
-                            <span class="result-label">Total de Personas</span>
-                            <span class="result-value" id="result-total-personas"></span>
-                        </div>
-                        <div class="result-row">
-                            <span class="result-label">Participa Concierto de Noche</span>
-                            <span class="result-value" id="result-concierto"></span>
-                        </div>
-
-                        <div class="checkin-actions" id="checkin-actions"></div>
-                    </div>
-
-                    <button type="button" class="lookup-reset-btn" id="lookup-reset-btn">Buscar otro código</button>
+                <div class="lista-card">
+                    <p class="lookup-counter" id="lista-counter">0 de 0 confirmados</p>
+                    <div class="lista-items" id="lista-items"></div>
                 </div>
             </div>
         </section>
@@ -89,7 +53,7 @@
     </footer>
 
     <script src="data/asistentes.js"></script>
-    <script type="module" src="js/registro.js"></script>
+    <script type="module" src="js/lista-taller.js"></script>
 </body>
 
 </html>
