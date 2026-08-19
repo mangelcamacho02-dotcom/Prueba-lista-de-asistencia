@@ -399,9 +399,11 @@
   color: var(--color-inst-red);
 }
 
-/* Fila de desglose (Ambas / Solo Día / Solo Noche): 3 tarjetas estándar,
-   sin tarjeta "featured", así que necesitan su propio pie con borde */
-.stats-breakdown-grid .bento-card-standard .bento-footer {
+/* Grupos de tarjetas todas "estándar" (sin tarjeta "featured"), donde las
+   reglas :nth-child del sitio original no alcanzan a estilizar el pie de
+   todas las posiciones */
+.stats-breakdown-grid .bento-card-standard .bento-footer,
+.stats-bento-grid .bento-card-standard .bento-footer {
   border-top: 1px solid rgba(193, 199, 210, 0.2);
   color: var(--color-on-surface-variant);
 }

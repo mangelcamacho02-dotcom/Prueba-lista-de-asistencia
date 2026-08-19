@@ -1,8 +1,16 @@
 /* ==========================================================================
    REGISTRO / CHECK-IN - Lógica de consulta por código
-   Funciona en registro-dia.html y registro-noche.html.
-   El atributo data-actividad en <body> ("dia" o "noche") decide qué lista
-   de códigos usar y en qué colección de Firestore se guarda el check-in.
+   Funciona en registro-dia.html, registro-noche.html, registro-mixologia.html
+   y registro-barismo.html. El atributo data-actividad en <body> decide qué
+   padrón usar y en qué colección de Firestore se guarda el check-in.
+
+   El registrador escribe solo el número del código (sin "MED"); la búsqueda
+   normaliza tanto lo escrito como el padrón a solo dígitos para comparar.
+
+   Día y Noche incluyen total de personas y participación en el concierto;
+   los talleres (Mixología/Barismo) son individuales, así que esas dos filas
+   del resultado se ocultan automáticamente cuando el padrón no trae esos
+   datos.
 
    El conteo y el estado de check-in se guardan en Firestore (no en
    localStorage), así que se sincronizan en tiempo real entre todos los
@@ -23,10 +31,22 @@ import { firebaseConfig } from './firebase-config.js';
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const ACTIVIDAD_CONFIG = {
+    dia: { roster: () => window.ASISTENTES_DIA, coleccion: 'checkins_dia' },
+    noche: { roster: () => window.ASISTENTES_NOCHE, coleccion: 'checkins_noche' },
+    mixologia: { roster: () => window.ASISTENTES_MIXOLOGIA, coleccion: 'checkins_mixologia' },
+    barismo: { roster: () => window.ASISTENTES_BARISMO, coleccion: 'checkins_barismo' }
+};
+
+function normalizarCodigo(valor) {
+    return String(valor || '').replace(/\D/g, '');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const actividad = document.body.dataset.actividad; // "dia" | "noche"
-    const dataset = actividad === 'dia' ? window.ASISTENTES_DIA : window.ASISTENTES_NOCHE;
-    const checkinsRef = collection(db, `checkins_${actividad}`);
+    const actividad = document.body.dataset.actividad;
+    const config = ACTIVIDAD_CONFIG[actividad];
+    const dataset = config.roster();
+    const checkinsRef = collection(db, config.coleccion);
 
     const form = document.getElementById('lookup-form');
     const codeInput = document.getElementById('codigo-input');
@@ -43,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPersonas: document.getElementById('result-total-personas'),
         concierto: document.getElementById('result-concierto')
     };
+    const totalPersonasRow = fields.totalPersonas ? fields.totalPersonas.closest('.result-row') : null;
+    const concierteRow = fields.concierto ? fields.concierto.closest('.result-row') : null;
 
     let confirmados = new Map(); // codigo -> { horaTexto }
     let currentCodigo = null;
@@ -66,8 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function findByCodigo(codigo) {
-        const normalized = codigo.trim().toUpperCase();
-        return dataset.find(a => a.codigo.toUpperCase() === normalized);
+        const normalized = normalizarCodigo(codigo);
+        if (!normalized) return null;
+        return dataset.find(a => normalizarCodigo(a.codigo) === normalized);
     }
 
     function renderCheckinState(codigo) {
@@ -112,15 +135,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showResult(asistente) {
         errorBox.classList.remove('visible');
-        currentCodigo = asistente.codigo.toUpperCase();
+        currentCodigo = normalizarCodigo(asistente.codigo);
 
         fields.primerApellido.textContent = asistente.primerApellido;
         fields.segundoApellido.textContent = asistente.segundoApellido;
         fields.nombre.textContent = asistente.nombre;
-        fields.totalPersonas.textContent = asistente.totalPersonas;
-        fields.concierto.innerHTML = asistente.concierto
-            ? '<span class="concierto-badge si">Sí</span>'
-            : '<span class="concierto-badge no">No</span>';
+
+        if (asistente.totalPersonas !== undefined && totalPersonasRow) {
+            totalPersonasRow.style.display = '';
+            fields.totalPersonas.textContent = asistente.totalPersonas;
+        } else if (totalPersonasRow) {
+            totalPersonasRow.style.display = 'none';
+        }
+
+        if (asistente.concierto !== undefined && concierteRow) {
+            concierteRow.style.display = '';
+            fields.concierto.innerHTML = asistente.concierto
+                ? '<span class="concierto-badge si">Sí</span>'
+                : '<span class="concierto-badge no">No</span>';
+        } else if (concierteRow) {
+            concierteRow.style.display = 'none';
+        }
 
         renderCheckinState(currentCodigo);
         resultCard.classList.add('visible');
