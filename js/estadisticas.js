@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Hoja con TODO el padrón de un taller, indicando si cada quien ya
-    // confirmó ingreso (y el nombre del sustituto si aplica).
+    // confirmó ingreso (y los datos del sustituto si aplica).
     function hojaTallerCompleto(workbook, nombreHoja, roster, checkinsMap) {
         const hoja = workbook.addWorksheet(nombreHoja);
         hoja.columns = [
@@ -190,7 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
             { header: 'Nombre', key: 'nombre', width: 16 },
             { header: 'Confirmó Ingreso', key: 'confirmado', width: 16 },
             { header: 'Hora de Ingreso', key: 'hora', width: 16 },
-            { header: 'Sustituto', key: 'sustituto', width: 26 }
+            { header: 'Sustituto - Primer Apellido', key: 'sustPrimerApellido', width: 22 },
+            { header: 'Sustituto - Segundo Apellido', key: 'sustSegundoApellido', width: 22 },
+            { header: 'Sustituto - Nombre', key: 'sustNombre', width: 18 },
+            { header: 'Sustituto - Código Profesional', key: 'sustCodigo', width: 22 }
         ];
 
         const ordenado = (roster || []).slice().sort((a, b) =>
@@ -201,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ordenado.forEach(asistente => {
             const codigo = normalizarCodigo(asistente.codigo);
             const checkin = checkinsMap.get(codigo);
+            const sustituto = checkin && checkin.sustituto ? checkin.sustituto : null;
             hoja.addRow({
                 codigo,
                 primerApellido: asistente.primerApellido || '',
@@ -208,13 +212,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 nombre: asistente.nombre || '',
                 confirmado: checkin ? 'Sí' : 'No',
                 hora: checkin ? checkin.horaTexto : '',
-                sustituto: checkin && checkin.sustituto ? checkin.sustituto : ''
+                sustPrimerApellido: sustituto ? sustituto.primerApellido || '' : '',
+                sustSegundoApellido: sustituto ? sustituto.segundoApellido || '' : '',
+                sustNombre: sustituto ? sustituto.nombre || '' : '',
+                sustCodigo: sustituto ? sustituto.codigoProfesional || '' : ''
             });
         });
 
         estilizarEncabezado(hoja.getRow(1));
         aplicarZebra(hoja, ordenado.length);
-        hoja.autoFilter = { from: 'A1', to: 'G1' };
+        hoja.autoFilter = { from: 'A1', to: 'J1' };
         hoja.views = [{ state: 'frozen', ySplit: 1 }];
         return ordenado.length;
     }

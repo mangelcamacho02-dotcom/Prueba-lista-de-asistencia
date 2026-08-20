@@ -36,6 +36,12 @@ function normalizarCodigo(valor) {
     return String(valor || '').replace(/\D/g, '');
 }
 
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const actividad = document.body.dataset.actividad;
     const config = ACTIVIDAD_CONFIG[actividad];
@@ -87,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const linkSustituto = document.createElement('button');
         linkSustituto.type = 'button';
         linkSustituto.className = 'lista-item-sustituto-link';
-        linkSustituto.textContent = '¿No llegó? Registrar sustituto';
+        linkSustituto.textContent = 'Registrar sustituto';
         linkSustituto.addEventListener('click', () => {
             wrapper.replaceWith(crearFormSustituto(codigo, nombreOriginal));
         });
@@ -101,11 +107,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const form = document.createElement('form');
         form.className = 'lista-sustituto-form';
 
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = 'Nombre completo del sustituto';
-        input.required = true;
-        input.autocomplete = 'off';
+        const campos = document.createElement('div');
+        campos.className = 'lista-sustituto-campos';
+
+        const inputPrimerApellido = document.createElement('input');
+        inputPrimerApellido.type = 'text';
+        inputPrimerApellido.placeholder = 'Primer apellido';
+        inputPrimerApellido.required = true;
+        inputPrimerApellido.autocomplete = 'off';
+
+        const inputSegundoApellido = document.createElement('input');
+        inputSegundoApellido.type = 'text';
+        inputSegundoApellido.placeholder = 'Segundo apellido';
+        inputSegundoApellido.required = true;
+        inputSegundoApellido.autocomplete = 'off';
+
+        const inputNombre = document.createElement('input');
+        inputNombre.type = 'text';
+        inputNombre.placeholder = 'Nombre';
+        inputNombre.required = true;
+        inputNombre.autocomplete = 'off';
+
+        const inputCodigo = document.createElement('input');
+        inputCodigo.type = 'text';
+        inputCodigo.inputMode = 'numeric';
+        inputCodigo.placeholder = 'Código profesional';
+        inputCodigo.required = true;
+        inputCodigo.autocomplete = 'off';
+
+        campos.appendChild(inputPrimerApellido);
+        campos.appendChild(inputSegundoApellido);
+        campos.appendChild(inputNombre);
+        campos.appendChild(inputCodigo);
 
         const acciones = document.createElement('div');
         acciones.className = 'lista-sustituto-acciones';
@@ -125,21 +158,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            const nombreSustituto = input.value.trim();
-            if (!nombreSustituto) return;
+            const sustituto = {
+                primerApellido: inputPrimerApellido.value.trim(),
+                segundoApellido: inputSegundoApellido.value.trim(),
+                nombre: inputNombre.value.trim(),
+                codigoProfesional: inputCodigo.value.trim()
+            };
+            if (!sustituto.primerApellido || !sustituto.segundoApellido || !sustituto.nombre || !sustituto.codigoProfesional) {
+                return;
+            }
+            const inputs = [inputPrimerApellido, inputSegundoApellido, inputNombre, inputCodigo];
             btnGuardar.disabled = true;
             btnGuardar.textContent = 'Guardando...';
-            input.disabled = true;
-            guardarIngreso(codigo, { sustituto: nombreSustituto }, () => {
+            inputs.forEach(i => { i.disabled = true; });
+            guardarIngreso(codigo, { sustituto }, () => {
                 btnGuardar.disabled = false;
                 btnGuardar.textContent = 'Confirmar con Sustituto';
-                input.disabled = false;
+                inputs.forEach(i => { i.disabled = false; });
             });
         });
 
         acciones.appendChild(btnGuardar);
         acciones.appendChild(btnCancelar);
-        form.appendChild(input);
+        form.appendChild(campos);
         form.appendChild(acciones);
         return form;
     }
@@ -167,9 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (existing) {
                 const badge = document.createElement('span');
                 badge.className = existing.sustituto ? 'lista-item-confirmado sustituto' : 'lista-item-confirmado';
-                const textoSustituto = existing.sustituto
-                    ? `<span class="lista-item-sustituto-nombre">Sustituto: ${existing.sustituto}</span>`
-                    : '';
+                let textoSustituto = '';
+                if (existing.sustituto) {
+                    const s = existing.sustituto;
+                    textoSustituto = `<span class="lista-item-sustituto-nombre">Sustituto: ${escapeHtml(s.primerApellido)} ${escapeHtml(s.segundoApellido)}, ${escapeHtml(s.nombre)} (Cód. ${escapeHtml(s.codigoProfesional)})</span>`;
+                }
                 badge.innerHTML = `
                     <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>

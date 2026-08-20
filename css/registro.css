@@ -556,23 +556,38 @@
 }
 
 .lista-sustituto-form {
-  flex: 1 1 260px;
+  flex: 1 1 100%;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(245, 130, 32, 0.06);
+  border: 1px solid rgba(245, 130, 32, 0.2);
+}
+
+.lista-sustituto-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+@media (min-width: 560px) {
+  .lista-sustituto-campos {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .lista-sustituto-form input {
-  flex: 1 1 180px;
+  width: 100%;
   min-width: 0;
   font-family: var(--font-body);
   font-size: 13px;
   padding: 8px 12px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-outline-variant);
-  background-color: var(--color-background);
+  background-color: var(--color-surface-container-lowest);
   color: var(--color-on-surface);
 }
 
@@ -585,6 +600,7 @@
 .lista-sustituto-acciones {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: flex-end;
+  gap: 1rem;
   flex-shrink: 0;
 }
