@@ -1,7 +1,10 @@
 /* ==========================================================================
    PADRÓN DE REGISTRO — datos reales cargados desde los Excel oficiales
-   (DIA.xlsx, Noche.xlsx, Vitruvios.xlsx). Generado automáticamente; para
-   actualizarlo, reemplaza los Excel de origen y regenera este archivo.
+   (DIA_ACTUALIZACION_20_08_2026.xlsx, Noche.xlsx, Vitruvios.xlsx). Generado
+   automáticamente; para actualizarlo, reemplaza el Excel de origen y
+   regenera este archivo.
+
+   Última actualización de Día: 20/08/2026.
 
    Campos:
      codigo          - código profesional, solo dígitos (el registrador
@@ -332,7 +335,6 @@ window.ASISTENTES_DIA = [
   {"codigo": "9885", "nombre": "Marcela", "primerApellido": "Chavarria", "segundoApellido": "Mora", "totalPersonas": 3, "concierto": true},
   {"codigo": "11246", "nombre": "Leslie Andrea", "primerApellido": "Chavarria", "segundoApellido": "Rodriguez", "totalPersonas": 4, "concierto": true},
   {"codigo": "5065", "nombre": "Maria Paz", "primerApellido": "Chavarria", "segundoApellido": "Soto", "totalPersonas": 4, "concierto": true},
-  {"codigo": "12242", "nombre": "Zeidy Rebeca", "primerApellido": "Chavarria", "segundoApellido": "Duarte", "totalPersonas": 4, "concierto": false},
   {"codigo": "18661", "nombre": "Valeria Maria", "primerApellido": "Chavarria", "segundoApellido": "Chan", "totalPersonas": 4, "concierto": true},
   {"codigo": "14089", "nombre": "Melissa de los Angeles", "primerApellido": "Chavarria", "segundoApellido": "Segura", "totalPersonas": 4, "concierto": true},
   {"codigo": "17740", "nombre": "Sandra Francini", "primerApellido": "Chavarria", "segundoApellido": "Quiros", "totalPersonas": 4, "concierto": true},
@@ -485,7 +487,7 @@ window.ASISTENTES_DIA = [
   {"codigo": "13315", "nombre": "Gretel Alicia", "primerApellido": "Garita", "segundoApellido": "Sanchez", "totalPersonas": 4, "concierto": true},
   {"codigo": "4435", "nombre": "Francini", "primerApellido": "Garita", "segundoApellido": "Quesada", "totalPersonas": 4, "concierto": true},
   {"codigo": "10436", "nombre": "Natalia", "primerApellido": "Garita", "segundoApellido": "Hernandez", "totalPersonas": 4, "concierto": true},
-  {"codigo": "4140", "nombre": "Elliott", "primerApellido": "Garita", "segundoApellido": "Jimenez", "totalPersonas": 4, "concierto": true},
+  {"codigo": "4140", "nombre": "Elliott", "primerApellido": "Garita", "segundoApellido": "Jimenez", "totalPersonas": 6, "concierto": true},
   {"codigo": "15582", "nombre": "Maria Jose", "primerApellido": "Garita", "segundoApellido": "Ramirez", "totalPersonas": 4, "concierto": true},
   {"codigo": "8513", "nombre": "Mario G", "primerApellido": "Garro", "segundoApellido": "Ortiz", "totalPersonas": 4, "concierto": true},
   {"codigo": "13561", "nombre": "Tracy Yorleine", "primerApellido": "Garro", "segundoApellido": "Mora", "totalPersonas": 4, "concierto": true},
@@ -758,7 +760,7 @@ window.ASISTENTES_DIA = [
   {"codigo": "12574", "nombre": "Carla", "primerApellido": "Montero", "segundoApellido": "Rodriguez", "totalPersonas": 3, "concierto": true},
   {"codigo": "19240", "nombre": "Jose Pablo", "primerApellido": "Montero", "segundoApellido": "Gomez", "totalPersonas": 3, "concierto": true},
   {"codigo": "7624", "nombre": "Jorge Andres", "primerApellido": "Montero", "segundoApellido": "Jimenez", "totalPersonas": 4, "concierto": true},
-  {"codigo": "13091", "nombre": "Luis Carlos", "primerApellido": "Montero", "segundoApellido": "Salas", "totalPersonas": 1, "concierto": true},
+  {"codigo": "13091", "nombre": "Luis Carlos", "primerApellido": "Montero", "segundoApellido": "Salas", "totalPersonas": 2, "concierto": true},
   {"codigo": "18139", "nombre": "Maria Jesus", "primerApellido": "Montiel", "segundoApellido": "Zarate", "totalPersonas": 4, "concierto": true},
   {"codigo": "13397", "nombre": "Katherine", "primerApellido": "Montoya", "segundoApellido": "Castro", "totalPersonas": 4, "concierto": true},
   {"codigo": "12152", "nombre": "Luis Diego", "primerApellido": "Montoya", "segundoApellido": "Molina", "totalPersonas": 4, "concierto": true},
@@ -826,6 +828,7 @@ window.ASISTENTES_DIA = [
   {"codigo": "18345", "nombre": "Daniel de Jesus", "primerApellido": "Navarro", "segundoApellido": "Morales", "totalPersonas": 4, "concierto": true},
   {"codigo": "18575", "nombre": "Fabiola de los Angeles", "primerApellido": "Navarro", "segundoApellido": "Trejos", "totalPersonas": 4, "concierto": false},
   {"codigo": "15548", "nombre": "Belkis Vanessa", "primerApellido": "Novoa", "segundoApellido": "Martinez", "totalPersonas": 4, "concierto": false},
+  {"codigo": "8345", "nombre": "Mairena", "primerApellido": "Nujelahe Neira", "segundoApellido": "Neira", "totalPersonas": 4, "concierto": false},
   {"codigo": "10004", "nombre": "Grettel", "primerApellido": "Nuñez", "segundoApellido": "Mora", "totalPersonas": 3, "concierto": true},
   {"codigo": "10336", "nombre": "Luis Diego", "primerApellido": "Nuñez", "segundoApellido": "Solano", "totalPersonas": 4, "concierto": true},
   {"codigo": "14640", "nombre": "Maria Daniella", "primerApellido": "Nuñez", "segundoApellido": "Barrantes", "totalPersonas": 4, "concierto": false},
@@ -991,6 +994,7 @@ window.ASISTENTES_DIA = [
   {"codigo": "5813", "nombre": "Walter", "primerApellido": "Rodriguez", "segundoApellido": "Araya", "totalPersonas": 4, "concierto": true},
   {"codigo": "12141", "nombre": "Pamela", "primerApellido": "Rodriguez", "segundoApellido": "Aguero", "totalPersonas": 4, "concierto": true},
   {"codigo": "19855", "nombre": "Adriana", "primerApellido": "Rodriguez", "segundoApellido": "Villalobos", "totalPersonas": 4, "concierto": false},
+  {"codigo": "12386", "nombre": "Pedro Enrique", "primerApellido": "Roig", "segundoApellido": "Zamora", "totalPersonas": 3, "concierto": false},
   {"codigo": "18120", "nombre": "Gerson Alberto", "primerApellido": "Rojas", "segundoApellido": "Hernandez", "totalPersonas": 4, "concierto": true},
   {"codigo": "16076", "nombre": "Melania", "primerApellido": "Rojas", "segundoApellido": "Zuñiga", "totalPersonas": 4, "concierto": true},
   {"codigo": "13364", "nombre": "Douglas Steven", "primerApellido": "Rojas", "segundoApellido": "Zamora", "totalPersonas": 4, "concierto": true},
@@ -1005,6 +1009,7 @@ window.ASISTENTES_DIA = [
   {"codigo": "16219", "nombre": "Danai Maria", "primerApellido": "Rojas", "segundoApellido": "Obando", "totalPersonas": 4, "concierto": false},
   {"codigo": "16007", "nombre": "Carlos Humberto", "primerApellido": "Rojas", "segundoApellido": "Vega", "totalPersonas": 4, "concierto": true},
   {"codigo": "11109", "nombre": "Tatiana", "primerApellido": "Rojas", "segundoApellido": "Martinez", "totalPersonas": 4, "concierto": true},
+  {"codigo": "16074", "nombre": "Sofia", "primerApellido": "Rojas", "segundoApellido": "Diaz", "totalPersonas": 4, "concierto": false},
   {"codigo": "11487", "nombre": "Andres", "primerApellido": "Roman", "segundoApellido": "Mora", "totalPersonas": 4, "concierto": false},
   {"codigo": "7879", "nombre": "Alonso", "primerApellido": "Roman", "segundoApellido": "Loria", "totalPersonas": 4, "concierto": true},
   {"codigo": "5002", "nombre": "Virginia de los Angeles", "primerApellido": "Romero", "segundoApellido": "Avelar", "totalPersonas": 4, "concierto": false},
@@ -1082,6 +1087,7 @@ window.ASISTENTES_DIA = [
   {"codigo": "14064", "nombre": "Adriana", "primerApellido": "Segura", "segundoApellido": "Torres", "totalPersonas": 4, "concierto": true},
   {"codigo": "18534", "nombre": "Julio Anselmo", "primerApellido": "Sequeira", "segundoApellido": "Juarez", "totalPersonas": 4, "concierto": false},
   {"codigo": "15608", "nombre": "Kely Jazbleidy", "primerApellido": "Serna", "segundoApellido": "Ortegon", "totalPersonas": 4, "concierto": true},
+  {"codigo": "16442", "nombre": "Sthepanie", "primerApellido": "Serrano", "segundoApellido": "Jimenez", "totalPersonas": 3, "concierto": false},
   {"codigo": "15088", "nombre": "Abel Enrique", "primerApellido": "Sibaja", "segundoApellido": "Picado", "totalPersonas": 4, "concierto": true},
   {"codigo": "7471", "nombre": "Stephany", "primerApellido": "Siles", "segundoApellido": "Lopez", "totalPersonas": 4, "concierto": true},
   {"codigo": "9593", "nombre": "Mario Alberto", "primerApellido": "Solano", "segundoApellido": "Ross", "totalPersonas": 4, "concierto": false},

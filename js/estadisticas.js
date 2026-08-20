@@ -137,33 +137,86 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function hojaTallerSimple(workbook, nombreHoja, checkinsMap, roster) {
+    // Hoja con TODO el padrón de una actividad principal (Día o Noche),
+    // ordenada alfabéticamente, indicando si cada quien ya confirmó ingreso.
+    function hojaPadronCompleto(workbook, nombreHoja, roster, checkinsMap) {
         const hoja = workbook.addWorksheet(nombreHoja);
         hoja.columns = [
             { header: 'Código', key: 'codigo', width: 14 },
             { header: 'Primer Apellido', key: 'primerApellido', width: 20 },
             { header: 'Segundo Apellido', key: 'segundoApellido', width: 20 },
             { header: 'Nombre', key: 'nombre', width: 16 },
+            { header: 'Total de Personas', key: 'totalPersonas', width: 16 },
+            { header: 'Concierto de Noche', key: 'concierto', width: 16 },
+            { header: 'Confirmó Ingreso', key: 'confirmado', width: 16 },
             { header: 'Hora de Ingreso', key: 'hora', width: 16 }
         ];
 
-        const codigos = Array.from(checkinsMap.keys()).sort();
-        codigos.forEach(codigo => {
-            const asistente = buscarEnRoster(codigo, roster) || {};
+        const ordenado = (roster || []).slice().sort((a, b) =>
+            `${a.primerApellido} ${a.segundoApellido} ${a.nombre}`
+                .localeCompare(`${b.primerApellido} ${b.segundoApellido} ${b.nombre}`, 'es')
+        );
+
+        ordenado.forEach(asistente => {
+            const codigo = normalizarCodigo(asistente.codigo);
             const checkin = checkinsMap.get(codigo);
             hoja.addRow({
                 codigo,
                 primerApellido: asistente.primerApellido || '',
                 segundoApellido: asistente.segundoApellido || '',
                 nombre: asistente.nombre || '',
+                totalPersonas: asistente.totalPersonas ?? '',
+                concierto: asistente.concierto ? 'Sí' : 'No',
+                confirmado: checkin ? 'Sí' : 'No',
                 hora: checkin ? checkin.horaTexto : ''
             });
         });
 
         estilizarEncabezado(hoja.getRow(1));
-        aplicarZebra(hoja, codigos.length);
+        aplicarZebra(hoja, ordenado.length);
+        hoja.autoFilter = { from: 'A1', to: 'H1' };
         hoja.views = [{ state: 'frozen', ySplit: 1 }];
-        return codigos.length;
+        return ordenado.length;
+    }
+
+    // Hoja con TODO el padrón de un taller, indicando si cada quien ya
+    // confirmó ingreso (y el nombre del sustituto si aplica).
+    function hojaTallerCompleto(workbook, nombreHoja, roster, checkinsMap) {
+        const hoja = workbook.addWorksheet(nombreHoja);
+        hoja.columns = [
+            { header: 'Código', key: 'codigo', width: 14 },
+            { header: 'Primer Apellido', key: 'primerApellido', width: 20 },
+            { header: 'Segundo Apellido', key: 'segundoApellido', width: 20 },
+            { header: 'Nombre', key: 'nombre', width: 16 },
+            { header: 'Confirmó Ingreso', key: 'confirmado', width: 16 },
+            { header: 'Hora de Ingreso', key: 'hora', width: 16 },
+            { header: 'Sustituto', key: 'sustituto', width: 26 }
+        ];
+
+        const ordenado = (roster || []).slice().sort((a, b) =>
+            `${a.primerApellido} ${a.segundoApellido} ${a.nombre}`
+                .localeCompare(`${b.primerApellido} ${b.segundoApellido} ${b.nombre}`, 'es')
+        );
+
+        ordenado.forEach(asistente => {
+            const codigo = normalizarCodigo(asistente.codigo);
+            const checkin = checkinsMap.get(codigo);
+            hoja.addRow({
+                codigo,
+                primerApellido: asistente.primerApellido || '',
+                segundoApellido: asistente.segundoApellido || '',
+                nombre: asistente.nombre || '',
+                confirmado: checkin ? 'Sí' : 'No',
+                hora: checkin ? checkin.horaTexto : '',
+                sustituto: checkin && checkin.sustituto ? checkin.sustituto : ''
+            });
+        });
+
+        estilizarEncabezado(hoja.getRow(1));
+        aplicarZebra(hoja, ordenado.length);
+        hoja.autoFilter = { from: 'A1', to: 'G1' };
+        hoja.views = [{ state: 'frozen', ySplit: 1 }];
+        return ordenado.length;
     }
 
     async function exportarExcel() {
@@ -172,13 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const { todosCodigos, ambas, soloDia, soloNoche, medicosUnicos, personasUnicas } = calcularDesglose();
-        const totalGeneral = todosCodigos.size + checkinsMixologia.size + checkinsBarismo.size;
-
-        if (totalGeneral === 0) {
-            alert('Todavía no hay check-ins confirmados para exportar.');
-            return;
-        }
+        const { ambas, soloDia, soloNoche, medicosUnicos, personasUnicas } = calcularDesglose();
 
         const workbook = new window.ExcelJS.Workbook();
         workbook.creator = 'Convivio Familiar 2026';
@@ -209,55 +256,13 @@ document.addEventListener('DOMContentLoaded', () => {
         resumen.getColumn(2).alignment = { horizontal: 'center' };
         aplicarZebra(resumen, filasResumen.length);
 
-        // ---- Hoja "Detalle Día y Noche" ----
-        const detalle = workbook.addWorksheet('Detalle Día y Noche');
-        detalle.columns = [
-            { header: 'Código', key: 'codigo', width: 14 },
-            { header: 'Primer Apellido', key: 'primerApellido', width: 20 },
-            { header: 'Segundo Apellido', key: 'segundoApellido', width: 20 },
-            { header: 'Nombre', key: 'nombre', width: 16 },
-            { header: 'Total de Personas', key: 'totalPersonas', width: 16 },
-            { header: 'Concierto de Noche', key: 'concierto', width: 16 },
-            { header: 'Asistió Día', key: 'asistioDia', width: 12 },
-            { header: 'Hora Ingreso Día', key: 'horaDia', width: 16 },
-            { header: 'Asistió Noche', key: 'asistioNoche', width: 14 },
-            { header: 'Hora Ingreso Noche', key: 'horaNoche', width: 18 },
-            { header: 'Resumen de Asistencia', key: 'resumen', width: 20 }
-        ];
+        // ---- Hojas con el padrón completo de Día y de Noche ----
+        hojaPadronCompleto(workbook, 'Detalle Día', window.ASISTENTES_DIA, checkinsDia);
+        hojaPadronCompleto(workbook, 'Detalle Noche', window.ASISTENTES_NOCHE, checkinsNoche);
 
-        const codigosOrdenados = Array.from(todosCodigos).sort();
-        codigosOrdenados.forEach(codigo => {
-            const asistente = buscarEnDiaONoche(codigo) || {};
-            const enDia = checkinsDia.get(codigo);
-            const enNoche = checkinsNoche.get(codigo);
-
-            let resumenAsistencia = 'Solo Noche';
-            if (enDia && enNoche) resumenAsistencia = 'Ambas Actividades';
-            else if (enDia) resumenAsistencia = 'Solo Día';
-
-            detalle.addRow({
-                codigo,
-                primerApellido: asistente.primerApellido || '',
-                segundoApellido: asistente.segundoApellido || '',
-                nombre: asistente.nombre || '',
-                totalPersonas: asistente.totalPersonas ?? '',
-                concierto: asistente.concierto ? 'Sí' : 'No',
-                asistioDia: enDia ? 'Sí' : 'No',
-                horaDia: enDia ? enDia.horaTexto : '',
-                asistioNoche: enNoche ? 'Sí' : 'No',
-                horaNoche: enNoche ? enNoche.horaTexto : '',
-                resumen: resumenAsistencia
-            });
-        });
-
-        estilizarEncabezado(detalle.getRow(1));
-        aplicarZebra(detalle, codigosOrdenados.length);
-        detalle.autoFilter = { from: 'A1', to: 'K1' };
-        detalle.views = [{ state: 'frozen', ySplit: 1 }];
-
-        // ---- Hojas de talleres ----
-        hojaTallerSimple(workbook, 'Taller Mixología', checkinsMixologia, window.ASISTENTES_MIXOLOGIA);
-        hojaTallerSimple(workbook, 'Taller Barismo', checkinsBarismo, window.ASISTENTES_BARISMO);
+        // ---- Hojas con el padrón completo de cada taller ----
+        hojaTallerCompleto(workbook, 'Taller Mixología', window.ASISTENTES_MIXOLOGIA, checkinsMixologia);
+        hojaTallerCompleto(workbook, 'Taller Barismo', window.ASISTENTES_BARISMO, checkinsBarismo);
 
         const buffer = await workbook.xlsx.writeBuffer();
         const blob = new Blob([buffer], {
