@@ -13,19 +13,14 @@
    tiempo real entre todos los dispositivos que tengan esta lista abierta.
    ========================================================================== */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {
-    getFirestore,
     collection,
     doc,
     setDoc,
     onSnapshot,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { firebaseConfig } from './firebase-config.js';
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { db } from './firebase-init.js';
 
 const ACTIVIDAD_CONFIG = {
     mixologia: { roster: () => window.ASISTENTES_MIXOLOGIA, coleccion: 'checkins_mixologia' },

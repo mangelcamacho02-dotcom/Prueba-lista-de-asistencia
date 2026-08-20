@@ -10,16 +10,11 @@
    talleres (Mixología/Barismo) son individuales y se cuentan aparte.
    ========================================================================== */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {
-    getFirestore,
     collection,
     onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { firebaseConfig } from './firebase-config.js';
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { db } from './firebase-init.js';
 
 function normalizarCodigo(valor) {
     return String(valor || '').replace(/\D/g, '');
