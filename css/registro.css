@@ -511,6 +511,11 @@
   color: var(--color-inst-orange);
 }
 
+.lista-item-confirmado.manual {
+  background-color: rgba(0, 96, 168, 0.12);
+  color: var(--color-inst-blue);
+}
+
 .lista-item-confirmado .icon-svg {
   width: 16px;
   height: 16px;
@@ -603,4 +608,45 @@
   justify-content: flex-end;
   gap: 1rem;
   flex-shrink: 0;
+}
+
+/* Agregar persona adicional (no sustituye a nadie, es un cupo extra) */
+.lista-agregar-container {
+  margin-bottom: 1.5rem;
+}
+
+.lista-agregar-btn {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  border: 1.5px dashed var(--color-inst-blue);
+  background-color: rgba(0, 96, 168, 0.05);
+  color: var(--color-inst-blue);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lista-agregar-btn:hover {
+  background-color: rgba(0, 96, 168, 0.1);
+}
+
+.lista-agregar-form {
+  background-color: rgba(0, 96, 168, 0.05);
+  border-color: rgba(0, 96, 168, 0.2);
+}
+
+.lista-agregar-form input:focus {
+  border-color: var(--color-inst-blue);
+  box-shadow: 0 0 0 3px rgba(0, 96, 168, 0.15);
+}
+
+.lista-item-manual-etiqueta {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-inst-blue);
 }

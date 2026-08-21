@@ -175,10 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Hoja con TODO el padrón de un taller, indicando si cada quien ya
-    // confirmó ingreso (y los datos del sustituto si aplica).
+    // confirmó ingreso (y los datos del sustituto si aplica), más las
+    // personas agregadas manualmente como cupos adicionales (no están en
+    // el padrón, así que van aparte, al final).
     function hojaTallerCompleto(workbook, nombreHoja, roster, checkinsMap) {
         const hoja = workbook.addWorksheet(nombreHoja);
         hoja.columns = [
+            { header: 'Tipo', key: 'tipo', width: 14 },
             { header: 'Código', key: 'codigo', width: 14 },
             { header: 'Primer Apellido', key: 'primerApellido', width: 20 },
             { header: 'Segundo Apellido', key: 'segundoApellido', width: 20 },
@@ -191,6 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
             { header: 'Sustituto - Código Profesional', key: 'sustCodigo', width: 22 }
         ];
 
+        const codigosDelPadron = new Set((roster || []).map(a => normalizarCodigo(a.codigo)));
+
         const ordenado = (roster || []).slice().sort((a, b) =>
             `${a.primerApellido} ${a.segundoApellido} ${a.nombre}`
                 .localeCompare(`${b.primerApellido} ${b.segundoApellido} ${b.nombre}`, 'es')
@@ -201,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const checkin = checkinsMap.get(codigo);
             const sustituto = checkin && checkin.sustituto ? checkin.sustituto : null;
             hoja.addRow({
+                tipo: 'Padrón',
                 codigo,
                 primerApellido: asistente.primerApellido || '',
                 segundoApellido: asistente.segundoApellido || '',
@@ -214,11 +220,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        const manuales = Array.from(checkinsMap.entries())
+            .filter(([id]) => !codigosDelPadron.has(id))
+            .sort((a, b) => a[0].localeCompare(b[0]));
+
+        manuales.forEach(([, data]) => {
+            hoja.addRow({
+                tipo: 'Adicional',
+                codigo: data.codigoProfesional || '',
+                primerApellido: data.primerApellido || '',
+                segundoApellido: data.segundoApellido || '',
+                nombre: data.nombre || '',
+                confirmado: 'Sí',
+                hora: data.horaTexto || '',
+                sustPrimerApellido: '',
+                sustSegundoApellido: '',
+                sustNombre: '',
+                sustCodigo: ''
+            });
+        });
+
+        const totalFilas = ordenado.length + manuales.length;
         estilizarEncabezado(hoja.getRow(1));
-        aplicarZebra(hoja, ordenado.length);
-        hoja.autoFilter = { from: 'A1', to: 'J1' };
+        aplicarZebra(hoja, totalFilas);
+        hoja.autoFilter = { from: 'A1', to: 'K1' };
         hoja.views = [{ state: 'frozen', ySplit: 1 }];
-        return ordenado.length;
+        return totalFilas;
     }
 
     async function exportarExcel() {
