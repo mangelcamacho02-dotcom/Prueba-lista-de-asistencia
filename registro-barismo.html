@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Registro Taller Vitruvio Barismo - Convivio Familiar 2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/registro.css">
+</head>
+
+<body data-actividad="barismo">
+
+    <div class="registro-topbar">
+        <div class="container">
+            <a href="index.html" class="registro-back-link">
+                <svg class="icon-svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Volver al inicio
+            </a>
+            <span class="registro-topbar-title">Convivio Familiar 2026</span>
+        </div>
+    </div>
+
+    <main>
+        <section class="registro-hero">
+            <h1 class="registro-hero-title">Taller Vitruvio Barismo</h1>
+            <p class="registro-hero-subtitle">
+                Marque la confirmación de ingreso de cada persona en la lista.
+            </p>
+        </section>
+
+        <section class="registro-main">
+            <div class="container">
+                <div class="lista-card">
+                    <p class="lookup-counter" id="lista-counter">0 de 0 confirmados</p>
+                    <div class="lista-agregar-container" id="lista-agregar-container"></div>
+                    <div class="lista-items" id="lista-items"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">CONVIVIO FAMILIAR 2026</div>
+                <p class="footer-tagline">
+                    Para el disfrute de todos los agremiados y sus familias.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="data/asistentes.js"></script>
+    <script type="module" src="js/lista-taller.js"></script>
+</body>
+
+</html>
